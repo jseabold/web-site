@@ -14,3 +14,4 @@ dist
 build
 *egg*
 *.tar.gz
+*.pid
