@@ -1,0 +1,51 @@
+==================================
+Software Installation Instructions
+==================================
+
+Git/Github
+----------
+
+Follow the `instructions at Github <https://help.github.com/articles/set-up-git>`_ to install and set up Git and create a Github account. 
+ 
+Python
+------
+
+Download the latest Python 2.7.x from the official `Python download page <http://python.org>`_ for your OS.
+
+Mac users, make sure you read the `note about Python on OS X <http://www.python.org/getit/mac/>`_.
+
+Python Packages
+---------------
+
+Windows Users
+~~~~~~~~~~~~~
+
+Christoph Gohlke provides a great service to the community by providing Python binaries for Windows. You can find his page `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/>`_. You will want the following files (if you are on 32-bit windows, then grab the win32 files instead of amd64):
+
+* numpy-MKL-1.6.2.win-amd64-py2.7.exe
+* scipy-0.11.0.win-amd64-py2.7.exe
+* ipython-0.13.1.win-amd64-py2.7.exe
+* matplotlib-1.2.0.win-amd64-py2.7.exe
+* pandas-0.10.0.win-amd64-py2.7.exe
+* scikit-learn-0.12.1.win-amd64-py2.7.exe
+* nose-1.2.1.win-amd64-py2.7.exe
+
+**Note:** If when trying to start Python or IPython from the Command Prompt, you receive an error along the lines of::
+
+    'python' is not recognized as an internal or external command, operable program or batch file.
+
+or::
+
+    Bad command or filename
+
+You need to add the directory that contains the executables to your PATH environmental variable. A quick search should turn up instructions on how to do this.
+
+Mac Users
+~~~~~~~~~
+
+You can download all of the packages you will need by following the instructions provided with the `SciPy Superpack created and maintained by Chris Fonnesbeck <http://fonnesbeck.github.com/ScipySuperpack/>`_.
+
+Linux Users
+~~~~~~~~~~~
+
+If you are on a recent distribution, you can likely install everything using your package manager. If you are on a Debian-based system, you will be able to get the most up to date packages by using the `NeuroDebian respository <http://neuro.debian.net/>`_ created and maintained by Michael Hanke and Yaroslav Halchenko.

@@ -1,0 +1,2 @@
+source /home/skipper/virtualenv/pelican/bin/activate
+export PYTHONPATH=/home/skipper/src/nbconvert/nbconvert1:/home/skipper/src/nbconvert/nbconvert

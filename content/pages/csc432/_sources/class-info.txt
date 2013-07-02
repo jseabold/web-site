@@ -1,0 +1,137 @@
+=================
+Class Syllabus
+=================
+
+:**Instructor**: Skipper Seabold
+
+:**Contact**: js2796a@american.edu
+
+This course introduces students to programming for scientific computing. The target audience consists of anyone interested in honing their computational skills for research.
+
+The class is broken up into two distinct, but related, parts: *Systems Dynamics Models and Simulation* and *Data-Driven Models*. The class will consist of lectures and lab sessions. The lab sessions, however, will take place in the classroom, so each student is strongly encouraged to bring their laptop.
+
+
+Objectives
+++++++++++
+
+By the end of the course, students will be able to
+    1. Work comfortably at the command line of their computer
+    2. Use computers to investigate simple scientific problems using both data and simulation.
+    3. Solve simple scientific equations.
+    4. Describe how data are acquired, processed, analyzed, and visualized in a variety of scientific domains.
+    5. Explain how simulations are used across the natural sciences.
+    6. Explain how modeling is used in the social sciences.
+    7. Give an overview of the burgeoning field of data science.
+    8. Program using good software engineering habits, including the use of version control systems such as git and programming practices such as test-driven development.
+
+
+Prerequisites
++++++++++++++
+
+CSC-280 and MATH-211 or MATH-221. STAT-202 and MATH-310 are recommended but not required.
+
+
+Textbooks
++++++++++
+
+:Required: Angela B. Shiflet & George W. Shiflet. *Introduction to Computational Science: Modeling and Simulation for the Sciences.* Princeton University Press, 2006.
+:Optional (On Reserve): Stephen Marsland. *Machine Learning: An Algorithmic Perspective.* CRC Press, 2009.
+
+
+
+Software for the course
++++++++++++++++++++++++
+I will be using the latest available release of each of these softwares with the exception of Python, itself. We will use Python 2.7, though, if desired, you may be able to complete the coursework using Python 3.x, YMMV.
+
+* `git <http://git-scm.com>`_
+* `Python <http://python.org>`_
+* `IPython <http://ipython.org>`_ with `Notebook dependencies <http://ipython.org/ipython-doc/dev/install/install.html#installnotebook>`_
+* `NumPy <http://numpy.org>`_
+* `SciPy <http://scipy.org>`_
+* `matplotlib <http://matplotlib.org/>`_
+* `pandas <http://pandas.pydata.org>`_
+* `scikit-learn <http://scikit-learn.org>`_
+* `nose <https://nose.readthedocs.org/en/latest/>`_
+
+Sign up for an account on `github <http://github.com>`_ if you don't already have one.
+
+
+Course Grade
+++++++++++++
+
+* 10% Participation
+* 20% Homework
+* 35% Mid-Term
+* 35% Project
+
+
+Homeworks
++++++++++
+
+Grades will depend on the completion of 10 homeworks, a mid-term, and a final project. The homework grade will be based on the best 9 assignments.
+
+Homeworks are to be turned in by email, with the answers either typed-in directly in the body of the email (text-only emails, please), or as a text (.txt) attachment and a .py file for the programming assignments unless otherwise noted. Note that *doc, docx, odt* attachments will not be accepted.
+
+Late homeworks will not be accepted for credit. It is your responsibility to ensure that you have enough time to complete the assignment. This is why it is imperative that you start working on the problem sets early. If you are struggling with an assignment, please e-mail or come see me beforehand, so we can work together to get you on the right track.
+
+
+Final Project
++++++++++++++
+
+The final project will consist of a short (5-7 pages) research paper in which you attempt to answer a research question or in which you introduce a computational method and discuss applications. The paper should be accompanied by at least 300 lines of self-contained code. It must be done in Python, using numpy, or a project in the numpython stack. It should include tests and documentation. It should be available (privately or publicly) on Github. Ideally, it should be a part of a bigger project or work substantially with libraries/modules not written by you (and ideally not covered in the course). Part of the focus of the couse is to introduce tools for collaborative research; therefore, group projects will be accepted. Students may present their work at the end of the course.
+
+
+Presentations
++++++++++++++
+
+The final 2-3 lectures will consist of student presentation of their projects.
+
+
+Outline
++++++++
+
+This is a preliminary outline of the course and is subject to change. Check back here for updates.
+
+
++-----------+-----------+----------------------------------------------------+
+|  Week     | Dates     | Topics                                             |
++===========+===========+====================================================+
+|   Week 1  | 1/14-1/17 | Intro; Python Review                               |
++-----------+-----------+----------------------------------------------------+
+|   Week 2  | 1/21-1/24 | **No Class 1/21**; Python Tools Intro              |
++-----------+-----------+----------------------------------------------------+
+|   Week 3  | 1/28-1/31 | Calculus Review; System Dynamics                   |
++-----------+-----------+----------------------------------------------------+
+|   Week 4  | 2/4-2/7   | System Dynamics                                    |
++-----------+-----------+----------------------------------------------------+
+|   Week 5  | 2/11-2/14 | Computer Arithmetic; Errors                        |
++-----------+-----------+----------------------------------------------------+
+|   Week 6  | 2/18-2/21 | Simulation Techniques                              |
++-----------+-----------+----------------------------------------------------+
+|   Week 7  | 2/25-2/28 | Statistics Review; Monte Carlo Simulations         |
++-----------+-----------+----------------------------------------------------+
+|   Week 8  | 3/4       | **Midterm**                                        |
++-----------+-----------+----------------------------------------------------+
+|   Week 8  | 3/7       | Random Walk Simulations; Diffusion Models          |
++-----------+-----------+----------------------------------------------------+
+|   Week 9  | 3/11-3/14 | **No Class Spring Break**                          |  
++-----------+-----------+----------------------------------------------------+
+|   Week 10 | 3/18-3/21 | Data-Driven Models Intro; Regression               |
++-----------+-----------+----------------------------------------------------+
+|   Week 11 | 3/25-3/28 | Regression; Maximum Likelihood and Optimization    |
++-----------+-----------+----------------------------------------------------+
+|   Week 12 | 4/1-4/4   | Perceptrons; Multilayer-Perceptron                 |
++-----------+-----------+----------------------------------------------------+
+|   Week 13 | 4/8-4/11  | Multilayer Perceptron and applications             |
++-----------+-----------+----------------------------------------------------+
+|   Week 14 | 4/15-4/18 | Unsupervised Learning; Dimension Reduction         |
++-----------+-----------+----------------------------------------------------+
+|   Week 15 | 4/22-4/25 | Catch-up/Add'l Topics; Project Presentations       |
++-----------+-----------+----------------------------------------------------+
+|   Week 16 | 4/29      | Project Presentations                              |
++-----------+-----------+----------------------------------------------------+
+|                                                                            | 
++----------------------------------------------------------------------------+
+|   Final Exam *TBD*                                                         |
++----------------------------------------------------------------------------+
+

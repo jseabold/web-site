@@ -1,0 +1,35 @@
+=====================================================
+Introduction to Simulation and Modeling (Spring 2013)
+=====================================================
+
+**Class Number**: CSC-432
+
+**Meeting Times**: Monday/Thursday 5.20-6.35PM SCAN 157
+
+**Syllabus**: See `Class Info`_
+
+**Instructor**: Skipper Seabold <js2796a@american.edu>
+
+**Office Hours**: Thursday 2.00-4.00 Kreeger 122 and by appointment.
+
+.. _Class Info: class-info.html
+
+Pages
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
+   class-info
+   lectures
+   homeworks
+   project
+   python
+   commandline
+   notebooks
+   copyright
+
+Course Overview
+---------------
+
+This is a course in scientific computing, or computational science. In addition to the domain-specific knowledge possessed by a researcher, the practice of modern science demands a broad range of mathematical, computational, and statistical skills. This course will help equip you with these skills by approaching domain-specific applied problems in such a way as to emphasize the computational issues at hand and the tools used to solve them. We will cover system dynamics models, cellular automaton simulations, and a few foundational modern statistical techniques for learning from data, or machine learning.

@@ -1,0 +1,199 @@
+:orphan:
+
+Introduction
+============
+
+Computational Science
+---------------------
+
+* often hard science (physics, chemistry, biology); engineering
+* using computers to solve scientific problems
+* models
+* simulations
+* numerical analysis
+
+
+Data Science
+------------
+
+* can be used in both hard and soft sciences
+
+  * soft sciences often categorized by ill-defined systems (economics, finance, sociology, but also, business/predictive analytics)
+* machine learning, natural language processing, information extraction
+* information retrieval
+* knowledge discovery in networks
+* database theory (big data)
+* high performance computing
+* MapReduce framework
+
+
+What is systems modeling?
+-------------------------
+
+* a **system** is a set of inter-related factors
+* a **model** is a mathematical representation of some object or process
+* **modeling** is the application of methods to analyze real-world problems
+  in order to predict how the model might behave under different scenarios
+* can be physical or mathematical/computational
+* this usually entails a visualization
+
+
+Types of System Models
+-----------------------
+* deterministic
+  
+  * static
+  * dynamic
+    
+    * continuous
+    * discrete
+* stochastic (probabilistic)
+
+  * static (Monte Carlo simulation)
+  * dynamic
+    
+    * continuous
+    * discrete (discrete-event simulation)
+
+Characterizing the Model
+------------------------
+* Deterministic of stochastic?
+
+  * Does the model contain significant randomness/uncertainty?
+* Static or dynamic?
+
+  * Is the time dimension important?
+* Continuous or discrete
+  
+  * How does the system evolve?
+  * Continuous: classical mechanics
+
+    * state variables are infinitely updated within *any* finite timespan
+    * commonly described by ordinary differential equations
+    * E.g., :math:`\dot{x}=f(x, u, t)`
+  * Discrete: queuing, inventory
+
+    * time axis is discretized
+    * commonly described by difference equations
+    * E.g., :math:`\frac{x_{t+1}-x_t}{\Delta t} \approx f(x_t, u_t)`
+
+
+Examples
+--------
+:Static: `Birthday Problem <http://en.wikipedia.org/wiki/Birthday_problem>`_ 
+
+::
+
+   from scipy import misc, stats
+   prob = lambda n : stats.poisson.sf(0, misc.comb(n,2)/365.)
+
+:Deterministic simulation: Manufacturing process
+:Stochastic simulation: *Realistic* manufacturing process; Hardware/server time to failure
+:Continuous simulation: Rocket trajectory, robotics
+
+
+Applications
+------------
+
+* Data Science
+
+  * `Finding <http://www.wired.com/wiredscience/2012/06/google-x-neural-network/>`_ `cats <http://arxiv.org/abs/1112.6209>`_ on youtube
+  * Prediction - Nate Silver's `538 Model <http://fivethirtyeight.blogs.nytimes.com/>`_
+  * Recommendation engines (Netflix, Amazon, JSTOR)
+  * Health Care/Bioinformatics
+  * Network Analysis
+  * Disaster Response
+
+* Systems Modeling
+
+  * Hardware simulators (embedded systems)
+  * Hydrodynamic simulations (storm surges, tsunamis, floods)
+  * Earthquakes
+  * Flight simulators
+  * Traffic simulation
+  * Biology/Health Care (Disease spread, Population dynamics)
+  * Ecology
+  * Manufacturing processes (inventory, machine shops)
+* Visualization - `D3.js <http://bl.ocks.org/4062045>`_
+
+
+(Iterative) Modeling Process
+-----------------------------
+
+#. Analyze the problem (Goals and objectives)
+#. Formulate a model (Specification)
+
+   #. diagram relationships on paper
+   #. gather data
+   #. determine input/output and units
+   #. determine equations and functions
+   #. document simplifying assumptions
+   #. pseudocode
+
+#. Solve the model
+
+   #. Analytic or Simulation
+#. Verify and validate then interpret the solution
+
+   #. verification - ensure the code is faithful to the specification model (model right?)
+   #. validation - ensure that simulation results are congruent with experimental results / the system being analyzed (right model?)
+
+#. Report on the model
+
+   #. Describe the problem, the model design, the model solution, and results
+#. Maintenance
+
+   #. Importance of unit testing
+
+
+Why Simulate?
+-------------
+
+* Mathematical model may not have an analytical solution
+* Physical system is not available
+* Dangerous (atomic reactor, flight simulator)
+* Prohibitively high cost
+* Time-constraints
+* Control over input variables and state variables
+* Isolation of particular controls
+* Suppression of higher-order effects (non-linearities)
+
+
+Why Python
+----------
+
+* Alternatives
+
+  * `Simulation languages <http://en.wikipedia.org/wiki/Simulation_language>`_
+  * Application-oriented simulators
+* Python
+
+  * Low-level enough to understand the concepts
+  * High-level enough not to get in your way
+  * Batteries included
+  * Prominence in scientific computing
+  * Free
+
+Good Software Engineering Habits
+--------------------------------
+
+* Coding standards
+* Version control
+* Unit testing / Test-driven development
+* Maintain backups (rsync)
+
+
+Unsolicited Advice
+------------------
+
+* Get involved
+
+  * Lurk on mailing lists (`numpy and scipy <http://www.scipy.org/Mailing_Lists>`_, `R <http://www.r-project.org/mail.html>`_, `scikit-learn <https://lists.sourceforge.net/lists/listinfo/scikit-learn-general>`_)
+  * Hang out on `stackoverflow <http://stackoverflow.com>`_, `cross-validated <http://stats.stackexchange.com/>`_, `math <http://math.stackexchange.com/>`_)), reddit
+  * Find some interesting `meetup groups <http://www.meetup.com/>`_
+* Hack away
+
+  * `kaggle <http://www.kaggle.com/>`_, `random hacks of kindness <http://www.rhok.org/>`_, 
+* Work in public!
+
+  * "Github is my bicycle and open source is my resume."

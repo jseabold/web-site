@@ -1,0 +1,25 @@
+==============
+Course Project
+==============
+
+The final project will consist of a short (5-7 pages) research paper in which you attempt to answer a research question or in which you introduce a computational method and demonstrate applications. The paper should be accompanied by *at the least* 300 lines of self-contained code - not including documentation. It must be done in Python, using numpy, or a project in the numpython stack. It should include tests, documentation, and examples. It should be available on Github or a similar hosting service for version controlled software. Projects should likely be one of the following, though you are welcome to talk to me about other options.
+
+1. Original research question
+2. A research problem from the textbook
+3. Work on a scientific computing tool
+
+1. Original research question. Formulate a research question that you would like to attempt to answer using computational tools. This can be based on work from another class, for example, or something related to your job.
+
+2. Choose a project from the textbook. There are suggested projects at the end of each section. Find a modeling technique that of interest to you, choose one of the suggested projects, and develop a project around this.
+
+3. Work on a scientific computing tool. If you are interested in working on a tool, then your project will likely be a part of a bigger project (for example, `numpy`, `scipy`, `pandas`, `matplotlib`, `networkx`, etc.). Most of the python scientific computing projects are hosted on github. If you don't have an enhancement in mind, have a look through the existing issues of a project on github, and see if anything looks like it could make a good project. A good project, will be more than a simple bug fix. Ideally, this project will culminate in a `pull request <https://help.github.com/articles/using-pull-requests) to the larger project>`_.
+
+Group Projects
+--------------
+Part of the focus of the course is to introduce tools for collaborative research; therefore, group projects will be accepted. If you are doing a group project, then you need to clearly dilineate who will be working on what in your project prospectus. With github, I will easily be able to see who contributes what to assign grades accordingly.
+
+Advice
+------
+If you are going to be constructing a data-driven model, **start early** on getting your data and getting it into shape.
+
+Think of this as more than a grade. The code for this project and your accompanying paper can make nice additions to a resume. If you are able to point to your work github - be it this project or any other code you write, potential employers are much more likely to be able to assess your skills to see if you deserve an interview.

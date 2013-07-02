@@ -1,0 +1,35 @@
+=================
+IPython Notebooks
+=================
+
+Refer to the `IPython documentation <http://ipython.org/ipython-doc/dev/interactive/htmlnotebook.html>`_ to fill in the details on the below.
+
+Getting the IPython Notebooks for the course
+--------------------------------------------
+The code that we go through in class will be available on GitHub as IPython Notebooks. See the `README on github <http://github.com/jseabold/csc432-notebooks>`_ for instructions on obtaining and keeping up to date with the notebooks.
+
+What is the IPython Notebook?
+-----------------------------
+
+You can think of it as an IPython interpreter running on a web server on your machine. It has some nice features that make it ideal to use, teach, and learn.
+
+Starting the notebooks
+----------------------
+
+To run the notebooks, you type
+
+    ipython notebook
+
+at the command prompt. This should work on linux, OS X, or Windows. If this doesn't launch the notebook server in your default web browser point to 127.0.0.1:8888 (it may take a few seconds to pop up), then make sure you have installed all of the notebook dependencies as mentioned `in the documentation <http://ipython.org/ipython-doc/dev/install/install.html#installnotebook>`_.
+
+Setting up your profile
+-----------------------
+
+The documentation tells you how to set up your profile, and I cover what you need to know `here <https://github.com/jseabold/csc432-notebooks#creating-a-notebook-profile>`_.
+
+What to do with the notebooks
+-----------------------------
+
+You've cloned the repository. You're able to launch the notebook server. What next? The README in the notebook repository on github mentions a bit about what you'll probably want to do and why. Make your own directory and copy the notebooks to it. Set the variable in the profile configuration file `c.NotebookManager.notebook_dir` to point to this directory. The variable configuration file is the one mentioned on the github README.
+
+Now, the next time you start the IPython Notebook server, the notebooks in this directory should show up in the notebook dash.

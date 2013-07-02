@@ -1,0 +1,17 @@
+===================
+Copyright Statement
+===================
+
+These pages, including lectures, homeworks, code, and notes, are made available
+under the `Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License <http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US>`_. If you do use these in a class, I would appreciate it if you dropped me a note with any suggestions or corrections.
+
+Work that has not been created by Skipper Seabold will be noted.
+
+Availability
+------------
+
+All materials for this class will be available on `github <http://github.com/jseabold/>`_ in the future.
+
+Attribution
+-----------
+The Sphinx templates for this web page were originally created by Luis Pedro Coelho for his Programming for Scientists course.

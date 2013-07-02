@@ -1,0 +1,69 @@
+=================
+Homeworks
+=================
+
+Homework Format and Submission
+------------------------------
+
+All homeworks are to be submitted electronically unless otherwise noted. Send me an e-mail with the subject line `CSC-432 Homework # - Last Name`. Fill in `#` and `Last Name` appropriately. You should submit one file for each homework assignment. Please title the homework file as `hw#_lastname.py`. 
+
+Some problems may not involve any programming. You can put the answers to these problems either in comments in the file or within a triple-quoted string. For the programming portion, your answers should be executable Python code. You should not copy and paste what you ran at the interpreter or tell me what I should run at the interpreter. For example, if you write a function that answers a question, run that function in your script. If it returns a value, print that value out for me.
+
+Homework 9 (due April 22)
+-------------------------
+Complete the `Clustering Problem Set <homeworks/09-clustering.pdf>`_.
+
+Homework 8 (due April 8 and 11)
+-------------------------------
+Complete the `Discrete Choice and Classification Model Problem Set <homeworks/08-discrete-classification.pdf>`_. I expect you to have completed problems 1-4 by Monday, April 8, though the entire problem set is to be turned in no later than Thursday, April 11.
+
+Mid-term Rewrite (due March 28)
+-------------------------------
+This is **optional**. You have the opportunity to correct the problems that you missed on the mid-term and submit it to be re-graded. I will take a weighted average of your original mid-term grade with weight 2/3 and the grade that you receive on your corrected assignment with weight 1/3. Write out the answers by hand **only** for the ones that you did not earn full credit on. Clearly indicate which problem you are working on and make your answers as legible as possible. You may use any resources at your disposal, though I would prefer if you do not work together on this assignment. **This is to be turned in at the beginning of class. As always per course policy, late submissions will not be accepted.** 
+
+Homework 7 (due March 25)
+-------------------------
+Complete the `Random Walk, Diffusions, and Data-Driven Models Problem Set <homeworks/07-diffusion-and-data.pdf>`_. 
+
+Homework 6 (due March 7)
+------------------------
+Write a project proposal. First review the `course project description <project.html>`_. Then see the `instructions for the proposal <homeworks/project_proposal.pdf>`_.
+
+Mid-term (March 4)
+------------------
+See the `Exam Review <homeworks/exam_review.pdf>`_.
+
+Homework 5 (due Feb 25)
+-----------------------
+Complete the `Simulation Techniques Problem Set <homeworks/05-simulation-techniques.pdf>`_. See the `solution key <homeworks/hw5_key.py>`_.
+
+Homework 4 (due Feb 18)
+-----------------------
+Complete the `Computer Arithmetic Problem Set <homeworks/04-computer-arithmetic.pdf>`_.
+
+Homework 3 (due Feb 11)
+-----------------------
+
+Complete the `Systems Dynamics Problem Set <homeworks/03-system-dynamics-1.pdf>`_.
+
+Homework 2 (due Feb 4)
+----------------------
+
+Complete the `Calculus Review Problems <homeworks/02-calculus-review.pdf>`_.
+
+
+Homework 1 (due Jan 24)
+-----------------------
+
+Read `PEP 8 <http://www.python.org/dev/peps/pep-0008/>`_
+
+Complete the `Python review tutorial 1 <homeworks/01-python-review-questions.pdf>`_
+
+Homework 0 (due Jan 17)
+-----------------------
+
+Fill out the `introductory questionnaire`_ and bring it with you to class.
+
+Follow the `installation instructions <python.html>`_ and install Python 2.7, IPython (w/ Notebooks), NumPy, SciPy, and matplotlib. Bring your laptops to class.
+
+.. _`introductory questionnaire` : handouts/intro-questionnaire.pdf

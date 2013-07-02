@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Presentation</title>
+
+    <meta charset="utf-8">
+    <script src="index_files/slides.asc"></script>
+  <style>
+    /* Your individual styles here, or just use inline styles if that’s
+       what you want. */
+    
+    
+  </style><meta content="width=1100,height=750" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"></head>
+  
+  
+
+  <body class="loaded" style="display: none;">
+
+    <section class="slides layout-regular template-econ">
+      
+      <!-- Your slides (<article>s) go here. Delete or comment out the
+           slides below. --> 
+      
+     <!-- <article class="biglogo current">
+      </article> -->
+
+      <article class="next">
+        <h1>
+          Topic Modeling for Economics:
+          <br>
+          <span style="font-size: 75%">Latent Dirichlet Allocation and Beyond<span>
+        </h1>
+        <p>
+          Skipper Seabold
+          <br>
+          February 10, 2012
+          </p>
+        <a href="http://jseabold.net/presentations/topicmodelintro.html">http://jseabold.net/presentations/topicmodelintro.html</a>
+      </article>
+      
+      <article class="far-next" style="background: white">
+        <h3>
+          The Problem
+        </h3>
+        <p>What are all these texts about?</p>
+        <p>Which of these texts contain discussions of market phenomena?</p>
+        <image style="position: absolute; top: 65; left:0; height: 400px; width:100%; display: inline" src="img/img1.png"></image>  
+
+        <div class = "build">
+        <class="to-build"><image style="position: absolute; top: 65; left: 0; height: 400px; width:100%; display: block; z-index: 1000" src="img/img3.png"></image></span></div>
+      </article>
+
+      <article style="background: white">
+      <image class="centered" src="img/Scholar_with_His_Books_by_Gerbrand_van_den_Eeckhout.jpeg" style="height:620px"></image>
+      </article>
+
+      <article>
+        <h3>Sources of Electronic Texts</h3>
+        <p><strong>O</strong>ptical <strong>C</strong>haracter <strong>R</strong>ecognition</p>
+        <ul>
+            <li>JSTOR</li>
+            <li>Early English Books Online</li>
+            <li>Project Gutenberg</li>
+            <li>European Digital Library</li>
+            <li>Open Content Alliance</li>
+            <li>Google Books</li>
+            <li>Federal Reserve Minutes</li>
+        </ul>
+      </article>
+
+      <article>
+        <h3>
+          The Solution: Latent Dirichlet Allocation
+        </h3>
+        <p>
+        Blei, David M.; Ng, Andrew Y.; and Jordan, Michael I. (2003)<br>
+        &#160;&#160;&#160;&#160; "Latent Dirichlet Allocation." 
+        <i>Journal of Machine Learning <br>
+        &#160;&#160;&#160;&#160;Research</i>. 3, 993-1022.
+        </p>
+        <ul>
+        <li>Identify the hidden latent structure in texts</li>
+        <li>Using past contributions to the Information Sciences, Bayesian Statistics, and Computer Science.</li>
+        <li>Allows us to do information retrieval (searching), assess document similarity, etc.</li>
+        </ul>
+      </article>
+
+      <article class="smaller">
+      <h3>Applications of LDA</h3>
+      <ul>
+      <h3>Documents</h3>
+      <ul><li>Blei, D. and Lafferty, J. "A Correlated Topic Model of <i>Science</i>"</li></ul>
+      <h3>Bioinformatics</h3>
+      <ul><li>Chen, X., <i>et al.</i> "Probabilistic Topic Modeling for Genomic Data Interpretation"</li></ul>
+      <h3>Finance</h3>
+      <ul><li>Grafe, P. "Topic Modeling in Financial Documents"</li></ul>
+      <h3>History</h3>
+      <ul><li>Nelson, R.K. "Mining the Dispatch"</li></ul>
+      <h3>Music</h3>
+      <ul><li>Hu, D.J. and Lawrence, K.S. "A Probabilistic Topic Model for Music Analysis."</li></ul>
+      <h3>Images</h3>
+      <ul><li>Barnard, K. <i>et al.</i> "Matching Words and Pictures"</li></ul>
+      </ul>
+      </article>
+
+      <article>
+        <h3>Practical LDA Overview</h3>
+        <p>Parse documents (Remove punctuation, stemming, stop words)</p>
+        <p>Create a vocabulary (top n words by tf-idf)</p>
+        <p>Turn documents into a numerical representation</p>
+        <p>Run LDA</p>
+        <p>Inference and Exploration (maybe repeat the process)</p>
+
+      </article>
+
+      <article class="smaller" style="background: white; padding: 40px 10px">
+      <h3>Example 1: The Human Test</h3>
+      <table><tbody>
+     <tr><th>topic 016</th><th> topic 018</th><th> topic 036</th><th> topic 089</th><th> topic 093</th><th> topic 097</th></tr>
+<tr><td>area</td> <td>equation</td> <td>plane</td> <td>equation</td> <td>curve</td> <td>fluid</td><tr>
+<tr><td>gravity</td> <td>value</td> <td>axis</td> <td>function</td> <td>equation</td> <td>pressure</td><tr>
+<tr><td>vertical</td> <td>roots</td> <td>axes</td> <td>integral</td> <td>cubic</td> <td>particles</td><tr>
+<tr><td>inclination</td> <td>coefficients</td> <td>circle</td> <td>differential</td> <td>conic</td> <td>value</td><tr>
+<tr><td>centre</td> <td>symbol</td> <td>parallel</td> <td>variable</td> <td>tangent</td> <td>theory</td><tr>
+<tr><td>solid</td> <td>theorem</td> <td>perpendicular</td> <td>elements</td> <td>cayley</td> <td>mass</td><tr>
+<tr><td>floating</td> <td>square</td> <td>section</td> <td>condition</td> <td>intersection</td> <td>equation</td><tr>
+<tr><td>horizontal</td> <td>sign</td> <td>centre</td> <td>coefficients</td> <td>memoir</td> <td>attraction</td><tr>
+<tr><td>stability</td> <td>function</td> <td>curve</td> <td>problem</td> <td>condition</td> <td>density</td><tr>
+<tr><td>ordinates</td> <td>multiplied</td> <td>equation</td> <td>arbitrary</td> <td>plane</td> <td>velocity</td><tr>
+<tr><td>section</td> <td>factor</td> <td>intersection</td> <td>professor</td> <td>value</td> <td>equilibrium</td><tr>
+<tr><td>ship</td> <td>integral</td> <td>sphere</td> <td>value</td> <td>contact</td> <td>solid</td><tr>
+<tr><td>volume</td> <td>formula</td> <td>tangent</td> <td>partial</td> <td>reciprocal</td> <td>elastic</td><tr>
+<tr><td>axis</td> <td>sin</td> <td>prop</td> <td>satisfied</td> <td>coordinates</td> <td>axis</td><tr>
+<tr><td>construction</td> <td>substituting</td> <td>base</td> <td>transformation</td> <td>writing</td> <td>molecules</td></tr> 
+      </tbody></table>
+      </article>
+
+      <article style="background: white">
+      <h3>Example 1: The Human Test</h3>
+      <div class="build">
+      <h4 class="to-buid">
+      Hirst, T.A. (1863) "On the Volumes of Pedal Surfaces."<br>&#160;&#160;&#160;&#160; <i>Philosophical Transactions of the Royal Society of London</i>. <br>&#160;&#160;&#160;&#160; 153, 13-32.</h4></div>
+      <image class="to-build centered" src="img/topic_dist.png" style="height: 420px;"></iamge>
+      </article>
+
+    <article class="smaller">
+    <h3>Example 2: The Human Test</h3>
+    <h4>Thompson, B. (1781) "New Experiments upon <br>&#160;&#160;&#160;&#160;Gun-Powder, with Occasional Observations and <br>&#160;&#160;&#160;&#160;Practical Inferences; To Which are Added, an Account of <br>&#160;&#160;&#160;&#160;a New Method of Determining the Velocities of All <br>&#160;&#160;&#160;&#160;Kinds of Military Projectiles, and the Description of a <br>&#160;&#160;&#160;&#160;Very Accurate Eprouvette for Gun-Powder." <i>Philosohical<br>&#160;&#160;&#160;&#160; Transactions of the Royal Society</i>. 71, 229-328.</h4>
+    <image class="centered" src="img/calvin-war.jpg" style="position: relative; margin-bottom: 750px"></image>
+    </article>
+
+    <article class="smaller" style="background: white">
+    <h3>Example 2: The Human Test</h3>
+  <div class="build">
+  <table><tbody class="to-build">
+    <tr>
+        <th class="to-build">Explosives</th>
+        <th class="to-build">Guns</th>
+        <th class="to-build">Metalworking</th>
+        <th class="to-build">Metallurgy</th>
+        <th class="to-build">Chemistry</th>
+    </tr>
+    <tr>
+        <th>topic 031</th>
+        <th>topic 032</th>
+        <th>topic 050</th>
+        <th>topic 058</th>
+        <th>topic 078</th>
+    </tr>
+    <tr>
+        <td>explosion</td> 
+        <td>velocity</td> 
+        <td>iron</td> 
+        <td>metal</td>
+        <td>sulphuric</td>
+    </tr>
+    <tr>
+        <td>wire</td>
+        <td>resistance</td>
+        <td>strength</td>
+        <td>copper</td>
+        <td>antimony</td></tr>
+    <tr>
+        <td>vanadium</td>
+        <td>friction</td>
+        <td>bars</td>
+        <td>gold</td>
+        <td>melted</td>
+    </tr>
+    <tr>
+        <td>exploded</td>
+        <td>powder</td>
+        <td>resistance</td>
+        <td>silver</td>
+        <td>powder</td>
+    </tr>
+    <tr>
+        <td>flame</td>
+        <td>fluid</td>
+        <td>square</td>
+        <td>iron</td>
+        <td>liquid</td></tr>
+    <tr>
+        <td>cane</td>
+        <td>machine</td>
+        <td>beam</td>
+        <td>alloys</td>
+        <td>metal</td></tr>
+    <tr>
+        <td>fulminating</td>
+        <td>barrel</td>
+        <td>ends</td>
+        <td>conducting</td>
+        <td>phosphorus</td>
+    </tr>
+    <tr>
+        <td>guncotton</td>  
+        <td>elastic</td>
+        <td>cast</td>
+        <td>wire</td>
+        <td>ozone</td>
+    </tr>
+    <tr>
+        <td>etonation</td>
+        <td>cylinder</td>
+        <td>cylinder</td>
+        <td>resin</td>
+        <td>luminous</td>
+    </tr>
+    <tr>
+        <td>burning</td>
+        <td>bullet</td>
+        <td>breaking</td>
+        <td>zinc</td>
+        <td>eposited</td>
+    </tr>
+    <tr>
+        <td>powder</td>
+        <td>raised</td>
+        <td>steel</td>
+        <td>pure</td>
+        <td>acid</td>
+    </tr>
+    <tr>
+        <td>ignited</td>
+        <td>charge</td>
+        <td>compressed</td>
+        <td>bismuth</td>
+        <td>flame</td>
+    </tr>
+    <tr>
+        <td>combustion</td>
+        <td>center</td>
+        <td>section</td>
+        <td>gravity</td>
+        <td>iron</td>
+    </tr>
+    <tr>
+        <td>cannes</td>
+        <td>bore</td>
+        <td>strain</td>
+        <td>palladium</td>
+        <td>shining</td>
+    </tr>
+    </tbody></table>
+    </div>
+    </article>
+
+      <article class="smaller">
+        <h3>History</h3>
+        <ul>
+          <h3>Term Frequency-Inverse Document Frequency</h3>
+          <ul><li>Salton, G. <i>et al.</i> (1975) "A Vector Space Model for Automatic Indexing". <i>Communications of the ACM</i>. 18(11), 613-20.</li></ul>
+          <h3>Latent Semantic Analysis</h3>
+          <ul><li>Deerwester, S. <i>et al.</i> (1990) "Indexing by Latent Semantic Analysis."<i>Journal of the American Society for Information Science.</i> 41(6), 391-407.</li></ul>
+          <h3>Probabilistic Latent Semantic Analysis</h3>
+          <ul><li>Hofmann, T. (1999) "Probabilistic Latent Semantic Indexing." In <i>Proceedings of the 22nd Annual International ACM SIGIR Conference on Research and Development in Information Retrieval</i> 22, 50-7.</li></ul>
+          <h3>Latent Dirichlet Allocation</h3>
+          <ul><li>Blei, David M.; Ng, Andrew Y.; and Jordan, Michael I. (2003)
+        "Latent Dirichlet Allocation." <i>Journal of Machine Learning Research</i>. 3, 993-1022.</li></ul>
+        </ul>
+      </article>
+
+    <article class="smaller" style="background: white">
+    <h3>LDA: Terms and Notation</h3>
+    <table class="notation">
+    <tr>
+        <td>$K$</td>
+        <td>The number of topics</td>
+    </tr>
+    <tr>
+        <td>$V$</td>
+        <td>The size of the vocabulary</td>
+    </tr>
+    <tr>
+        <td>$D$</td>
+        <td>The number of documents</td>
+    </tr>
+    <tr>
+        <td>$N_{d}$</td>
+        <td>The number of words in a document $d$</td>
+    </tr>
+    <tr>
+        <td>$\alpha$</td>
+        <td>Hyperparameter for document's topic mixture components, $K$-vector or scalar if symmetric</td>
+    </tr>
+    <tr>
+        <td>$\eta$</td>
+        <td>Hyperparameter for topic's word mixture components, $V$-vector or scalar if symmetric</td>
+    </tr>
+    <tr>
+        <td>$\theta_d$</td>
+        <td>Document-level topic proportions; distribution over topic indices $1,\dots,K$</td>
+    </tr>
+    <tr>
+        <td>$\beta_k$</td>
+        <td>Topic-level word proportions; distribution over the vocabulary $V$</td>
+    </tr>
+    <tr>
+        <td>$w_{d,n}$</td>
+        <td>Term indicator for word $n$ in topic $d$</td>
+    </tr>
+    <tr>
+        <td>$z_{d,n}$</td>
+        <td>Mixture indicator for the topic of word $n$ in document $d$</td>
+    </tr>
+    </table>
+    </article>
+
+    <article>
+    <h3>LDA: The Generative Model</h3>
+    <ul>
+<li>For each topic $k$</li>
+<ul><li>
+  Draw a distribution over the vocabulary $\beta_{k} \sim Dir_V\left(\eta\right)$</li></ul>
+<li>For each document $d$</li>
+<ul>
+  <li>Draw a distribution of topic weights $\theta_{d} \sim Dir_K\left(\alpha\right)$</li>
+  <li> For each word $n$ in document $d$ </li>
+  <ul>
+    <li> Draw a topic index $z_{d,n} \sim Mult\left(\theta_{d}\right)$, $z_{d,n} \in {1,\dots,K}$ </li>
+    <li> Draw the observed word from the selected topic <br>$w_{d,n} \sim Mult(\beta_{z_{d,n}})$, $w_{d,n} \in {1,\dots,V}$ </li>
+    </ul>
+    </ul>
+    </ul>
+    </article>
+
+      <article class="smaller">
+      <h3>Example Text</h3>
+      <div style="font-size: 85%; padding-top: 12px;">
+       The <span style="background-color: yellow">pressure </span><sup>47</sup> of this <span style="background-color: yellow">fluid </span><sup>23</sup> upon the <span style="background-color: yellow">valve </span><sup>561</sup> <span style="background-color: yellow">assists </span><sup>737</sup> the action of the <span style="background-color: yellow">spring, </span><sup>255</sup> by which means the <span style="background-color: yellow">valve </span><sup>561</sup> is more <span style="background-color: yellow">expeditiously </span><sup>7271</sup> and more <span style="background-color: yellow">effectually </span><sup>2319</sup> closed. The <span style="background-color: yellow">valve </span><sup>561</sup> was very accurately <span style="background-color: yellow">fitted </span><sup>1082</sup> to the <span style="background-color: yellow">aperture </span><sup>461</sup> by <span style="background-color: yellow">grind- </span><sup>1927</sup> <span style="background-color: yellow">ing </span><sup>2681</sup> them together with <span style="background-color: yellow">powdered </span><sup>195</sup> <span style="background-color: yellow">emery, </span><sup>4738</sup> and afterwards po- <span style="background-color: yellow">lishing </span><sup>4696</sup> them one upon the other. And it is very certain, that no part of the <span style="background-color: yellow">elastic </span><sup>295</sup> <span style="background-color: yellow">fluid </span><sup>23</sup> made its <span style="background-color: yellow">escape </span><sup>695</sup> by this <span style="background-color: yellow">vent; </span><sup>2079</sup> for, upon firing the piece, there was only a simple <span style="background-color: yellow">flash </span><sup>2351</sup> from the <span style="background-color: yellow">explosion </span><sup>431</sup> of the <span style="background-color: yellow">priming, </span><sup>1234</sup> and no <span style="background-color: yellow">stream </span><sup>484</sup> of fire was to be seen <span style="background-color: yellow">issuing </span><sup>1172</sup> from the <span style="background-color: yellow">vent, </span><sup>2079</sup> as is always to be observed when a com- mon <span style="background-color: yellow">vent </span><sup>2079</sup> is made use of, and in all other cases where this <span style="background-color: yellow">fluid </span><sup>23</sup> finds a passage.</div>
+      </article>
+
+      <article>
+      <h3>Statistics Background: Multinomial Distribution</h3>
+      <ul>
+      <li>Used to model repeated experiments with multiple outcomes.
+      E.g., roll of a dice.</li>
+      <li>Generalization of binomial</li>
+      </ul>
+      $$p(\vec{n} | \vec{p}, N) = \binom{N}{\vec{n}}\prod_{k=1}^{K}p_{k}^{n^{(k)}} \equiv Mult(\vec{n} | \vec{p}, N)$$
+
+    <p>where</p>
+    <span style="padding-left: 50px; padding-right: 50px">$\binom{N}{n} = \frac{N!}{\prod_{k}\vec{n}^{(k)}!}$
+    <span style="padding-left: 45px; padding-right: 45px; text-align: center">and</span></span>
+    $\sum_{k}p_{k} = 1$; 
+    $\sum_{k}n^{(k)} = N$
+    <ul><li>Categorical Distribution</li></ul>
+    </article>
+
+    <article>
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <ul>
+    <li>Used to model positive vectors that sum to $1$</li>
+    <li>Conjugate prior to the multinomial distribution</li>
+    <li>Multivariate generalization of the Beta distribution</li>
+    </ul>
+    $$p(\vec{\theta}|\vec{\alpha}) = Dir(\vec{\theta}|\vec{\alpha}) = \frac{\Gamma\left(\sum_{k=1}^K\alpha_{k}\right)}{\prod_{k=1}^K\Gamma\left(\alpha_k\right)}\prod_{k=1}^K\theta_{k}^{\alpha-1}$$
+    with parameter $\alpha$ that controls the mean and sparsity of $\theta$<br>
+    where $\sum_{k}\theta_{k}=1$; $\theta_{k}>0$<br>
+    and $\Gamma(x)$ is the Gamma function.
+    </article>
+    
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/alpha1k10.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/alpha10k10.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/alpha100k10.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/alpha0.1k10.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/alpha0.01k10.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/alpha0.001k10.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/dirichlet_simplex1-1-1.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/dirichlet_simplex10-10-10.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/dirichlet_simplex0.1-0.1-0.1.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/dirichlet_simplex0.01-0.01-0.01.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Dirichlet Distribution</h3>
+    <image class="centered" src="img/dirichlet_simplex4-4-2.png"></image>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Graphical Models</h3>
+    <image src="img/graph1.png" style="height: 340px"></image><span style="position: relative; bottom: 170px; ;font-size: 44px; padding: 0 15px">&equiv;</span><image src="img/graph2.png" style="height: 340px"></image>
+    <ul>
+        <li>Nodes are random variables</li>
+        <li>Shaded nodes are observed variables</li>
+        <li>Plates denote sequences</li>
+        <li>Edges denote possible dependence</li>
+    </ul>
+    </article>
+
+    <article style="background: white">
+    <h3>Statistics Background: Graphical Models</h3>
+    <image src="img/graph1.png" style="height: 340px"></image><span style="position: relative; bottom: 170px; ;font-size: 44px; padding: 0 15px">&equiv;</span><image src="img/graph2.png" style="height: 340px"></image>
+    <ul>
+        <li>Structure denotes conditional dependences</li>
+    </ul>
+        $$p(y,x_1,\cdots,x_N)=p(y)\prod_{n=1}^{N}p\left(x_n|y\right)$$
+    </article>
+
+    <article style="background: white">
+    <h3>LDA Graphical Model</h3>
+    <image src="img/graph.png" class="centered" style="padding-top: 0px;"></image>
+    $$p(w, \theta, \beta, z | \alpha, \eta) = $$
+    $$\prod_{k=1}^{K}p\left(\beta_{k}|\eta\right)\prod_{d=1}^{D}p\left(\theta_{d}|\alpha\right)\left[\prod_{n=1}^{N}p\left(z_{d,n}|\theta_{d}\right)p\left(w_{d,n}|z_{d,n},\beta_{1:K}\right)\right]$$
+    </article>
+
+    <article>
+    <h3>LDA Inference</h3>
+    <ul>
+        <li>Need posterior distribution to do anything meaningful</li>
+        <li>In particular, we need the expectations of the hidden variables conditional on the observed corpus</li>
+        <ul>
+            <li>$\hat{\beta}_{k}=E\left[\beta_{k}|w_{1:D,1:N}\right]$ - topic probability of a word - "the topics"</li>
+            <li>$\hat{\theta}_{d}=E\left[\theta_{k}|w_{1:D,1:N}\right]$ - topic proportions of a document</li>
+            <li>$\hat{z}_{d,n}=E\left[z_{d,n}|w_{1:D,1:N}\right]$ - topic assignment of a word</li>
+        </ul>
+    <ul>
+    </article>
+
+    <article>
+    <h3>The Posterior Distribution</h3>
+    To obtain the joint posterior distribution of the hidden variables conditional on the observations
+    <ul>
+        <li>Write down the posterior</li>
+        $$p\left(\theta, \beta, z | w, \alpha, \eta \right) = \frac{p\left(w, \theta,\beta, z| \alpha, \eta\right)}{p(w|\alpha,\beta)}$$
+        <li>Obtain $p(w|\alpha,\beta)$ by marginalizing over the hidden variables $\theta$ and $\beta$</li>
+        <li>Dependecies between $\theta$ and $\beta$ make computation of the posterior intractable</li>
+    </ul>
+    </article>
+
+    <article>
+    <h3>Approximate Inference</h3>
+    Existing methods:
+    <ul>
+        <li>MCMC Methods</li>
+            <ul><li>Collapsed Gibbs Sampling (Griffits and Steyvers, 2002</li></ul>
+        <li>Variational Methods</li>
+            <ul><li>Mean field variational methods - "batch" VB</li>
+            <li>Online variational inference - "online" VB</li>
+            </ul>
+    </ul>
+    </article>
+
+    <article>
+    <h3>Batch Vartiational Bayes</h3>
+        <ul>
+        <li>Problem: Edges between $\theta$, $z$, and $w$ are what introduce the coupling</li>
+        <li>Solution: drop them</li>
+        <image src="img/graph_vb.png" class="centered" style="padding-top: 0px;"></image>
+
+    </ul>
+    </article>
+
+    <article>
+    <h3>Variational Bayes Overview</h3>
+    <ul>
+        <li>Approximate the true posterior by a simpler variational distribution $q(z,\theta,\beta)$</li>
+     <li>Use Jensen's inequality to bound the log probability of the observations - the Evidence Lower BOund (ELBO)</li>
+     <li>Maximize the ELBO over these free, independent variational parameters</li>
+     $$\log p(w|\alpha,\eta) \geq \mathcal{L}(w,\phi,\lambda,\gamma) \equiv$$
+     $$\mathbb{E}_q[\log p(w,z,\theta,\beta|\alpha,\eta)] - \mathbb{E}_q[\log q(z,\theta,\beta)]$$
+        <li>Minimizes the cross-entropy between $q(\cdot)$ and $p(\cdot)$</li>
+    </ul>
+    </article>
+
+    <article class="smaller">
+    <h3>Variational Distributions</h3>
+    <ul>
+        $$q(z_{d,n}=k)=\phi_{dw_{d,n}k}$$
+        $$q(\theta_d)=Dir_K(\theta_d|\gamma_d)$$
+        $$q(\beta_k)=Dir_V(\beta_K|\lambda_k)$$
+Factorizing the ELBO gives
+        $$\begin{equation}\begin{split}\mathcal{L}(w,\phi,\gamma,\lambda)&=\sum_{d}\left\{\mathbb{E}_q[\log p(w_d|\theta_d,z_d,\beta)] + \mathbb{E}_q[\log p(z_d|\theta_d)] \right. \\
+       & - \mathbb{E}_q[\log q(z_d)] + \mathbb{E}_q[\log p(\theta_d|\alpha)] - \mathbb{E}_q[\log q(\theta_d)] \\
+       & + \mathbb{E}_q[\log p(\beta|\eta)] - \left. (\mathbb{E}_q[\log q(\beta)])/D\right\}\end{split}\end{equation}$$
+Plug in so that this is only a function of the variational parameters and maximize using coordinate ascent
+    </ul>
+    </article>
+
+    <article>
+    <h3>Batch VB Algorithm</h3>
+    <div class='prettyprint' style="font-family: 'Droid Sans Mono', 'Courier New', monospace;
+
+  font-size: 20px;
+  line-height: 28px;
+  padding: 5px 10px;
+  
+  letter-spacing: -1px;
+
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  color: black;
+  background: rgb(240, 240, 240);
+  border: 1px solid rgb(224, 224, 224);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, .1);
+  
+  overflow: hidden;">
+&#160;&#160;&#160;&#160;Initialize $\lambda$ randomly.<br>
+&#160;&#160;&#160;&#160;<span class="kwd">while</span> $\mathcal{L}(w,\phi,\gamma,\lambda) \gt 1e6$ (corpus tolerance)<span class="kwd">do</span><br>
+&#160;&#160;&#160;&#160;&#160;&#160;<i>E step:</i><br>
+&#160;&#160;&#160;&#160;&#160;&#160;<span class="kwd">for</span> d=1 to D <span class="kwd">do</span><br>
+&#160;&#160;&#160;&#160;&#160;&#160;Initialize $\lambda_{d,k} = 1$<br>
+&#160;&#160;&#160;&#160;&#160;&#160;<span class="kwd">repeat</span><br>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$\phi_{d,w,k} :\propto \exp\left\{\mathbb{E}_q[\log\theta_{d,k}] + \mathbb{E}[\log\beta_{k,w}]\right\}$ (update topic assignment)<br>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$\gamma_{d,k} := \alpha + \sum_w\phi_{d,w,k}n_{d,w}$ (update topic proportions)<br>
+&#160;&#160;&#160;&#160;&#160;&#160;<span class="kwd">until</span> $\frac{1}{K}\sum_{k}|\Delta\gamma_{d,k}| \lt 1e6$ (per-document tolerance)<br>
+&#160;&#160;&#160;&#160;&#160;&#160;<span class="kwd">end for</span><br>
+&#160;&#160;&#160;&#160;&#160;&#160;<i>M step:</i><br>
+&#160;&#160;&#160;&#160;$\lambda_{k,w} := \eta + \sum_dn_{d,w}\phi_{d,w,k}$ (update topics w\ aggregated per-document <br>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;stats)<br>
+&#160;&#160;&#160;&#160;<span class="kwd">end while</span><br>
+    </div>
+    </article>
+
+    <article class="smaller">
+    <h3>LDA Implementations</h3>
+    <ul>
+    <li>Matt Hoffman: <br> <a href="http://www.cs.princeton.edu/~blei/topicmodeling.html">http://www.cs.princeton.edu/~blei/topicmodeling.html</a></li>
+    <li>Radim Řehůřek: <br> <a href="http://radimrehurek.com/gensim/">http://radimrehurek.com/gensim/</a></li>
+    <li>My Gensim Fork: <br> <a href="https://github.com/jseabold/gensim">https://github.com/jseabold/gensim/</a></li>
+    <li>MALLET: <br><a href="http://mallet.cs.umass.edu/">http://mallet.cs.umass.edu/</a></li>
+    <li>Vowpal Wabbit: <br><a href="https://github.com/JohnLangford/vowpal_wabbit/wiki">https://github.com/JohnLangford/vowpal_wabbit/wiki</a></li>
+    <li>Mahout: <br><a href="http://mahout.apache.org/">http://mahout.apache.org/</a></li>
+    </ul>
+
+    </article>
+
+    <article>
+    <h3>Shortcomings of LDA</h3>
+    <ul>
+        <li>Strong independence of Dirichlet vector components</li>
+        <ul><li>A document about interest rates is more likely to also be about economics than archaeology </li></ul>
+        <li>Fails to capture topic drift over time</li>
+        <li>Fixed number of topics</li>
+        <li>Difficult to assess 'fit' of model</li>
+    <ul>
+
+    </article>
+
+    <article style="background: white">
+    <h3>Extensions: CTM</h3>
+Correlated Topic Model: Topics are assumed to come from a logistic normal distribution with mean $\mu$ and covariance $\Sigma$ <br>
+For each document of length $N_{d}$ (assuming topics are known and fixed)
+
+<ul>
+<li>Draw  $\eta \sim N\left(\mu, \Sigma \right)$</li>
+<li>For $n \in \left\{1,\dots,N_{d} \right\}$</li>
+<ul>
+  <li>Draw a topic assignment $Z_{n} \sim Mult\left(f(\eta) \right)$</li>
+  <li>Draw a word $w_n \sim Mult\left(\beta_{z_{n}}\right)$</li>
+    </ul>
+    </ul>
+
+where the function $f:\mathbb{R}^d \rightarrow (K-1)$-simplex
+
+$$f(\eta_i) = \frac{\exp(\eta_i)}{\sum_{j}\exp(\eta_j)}$$
+    </article>
+
+    <article>
+    <h3>Extensions: DTM</h3>
+Dynamic Topic Model: Topics are assumed to be different but correlated at time $t$ and $t-1$ <br>
+For the documents at each time slice $t$
+
+<ul>
+<li>Draw topics  $\vec{\pi_t} \sim N\left(\vec{\pi}_{t-1}, \sigma^{2}I \right)$</li>
+<li>For document $d \in {1,\dots, D_t}$</li>
+<ul>
+  <li>Draw a topic proportions $\theta_{d} \sim Dir_K\left( \alpha \right)$</li>
+  <li>For each word</li>
+  <ul>
+    <li>Draw $z_{d,n} \sim Mult\left(\theta_{d}\right)$</li>
+    <li>Draw the observed word $w_{t,d,n} \sim Mult(\left( f(\pi_{t,z_{d,n}}) \right)$</li>
+    </ul>
+    </ul>
+    </ul>
+
+    </article>
+        
+    <article>
+    <h3>Model Performance</h3>
+    <ul>
+    <li>Both models capture reality better</li>
+    <li>Both models 'fit' the data better</li>
+    <ul>
+        <li>Held-out perplexity</li>
+        $$perplexity(D_{test}) = \exp(H(p(w|\cdot)))$$
+    </ul>
+    <li>LDA is extremely flexible</li>
+    <ul>
+        <li>Can add exogenous variables: e.g., author names, movie 'ratings', geolocation, etc. Anything that might help determine topics</li>
+        <li>Response variables can have any support.</li>
+    </ul>
+    </ul>
+    </article>
+
+    <article>
+    <h3>Applying LDA: Patents and Innovation</h3>
+    <ul>
+        <li>Hypothesis 1: Strong patent laws drive the number of innovations (Aghion &amp; Howitt))</li>
+        <li>Hypothesis 2: Patent laws drive the direction of technical change (Moser)</li> 
+        <li>Alternative Hypothesis: Pockets of intellectual activity and open discourse drive innovation. Particularly the Industrial Revolution. (Mokyr)</li>
+    </ul>
+    </article>
+
+    <article class="smaller">
+    <h3>Testing the Alternative Hypothesis</h3>
+    New Approach: Determine whether country-specific intellectual activity determined innovations
+    <ul>
+        <li>Data:</li>
+        <ul>
+            <li>World Fairs of 1851 and 1876: 14k and 19k exhibitions, respectively, with inventor, region of origin, a description, patented or not, awards for inventiveness</li>
+            <li>Country characteristics: population, GDP, education, share of labor in agriculture</li>
+        </ul>
+        <li>What else?</li>
+        <ul>
+            <li>David Kronick's data on scientific and technical journals</li>
+            <li>Scholarly Society data from University of Waterloo</li>
+            <li>Early Journal Content Data</li>
+            <li>CERL Book Title Data</li>
+            <li>Other OCR opportunities?</li>
+        </ul>
+    </ul>
+    </article>
+
+    <article>
+    <h3>These Slides</h3>
+    <ul>
+        <li>Thanks, Google</li>
+        <li><a href="http://code.google.com/p/html5slides/">http://code.google.com/p/html5slides/</a></li>
+    <ul>
+    </article>
+ 
+    <div id="prev-slide-area" class="slide-area"></div><div id="next-slide-area" class="slide-area"></div></section>
+
+  
+
+    <link href="index_files/css.css" type="text/css" rel="stylesheet"><link href="index_files/styles.css" type="text/css" rel="stylesheet"><script src="index_files/prettify.asc" type="text/javascript"></script>
+    <script type="text/javascript" src="https://d3eoax9i5htok0.cloudfront.net/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript">
+MathJax.Hub.Config({
+    imageFont: null,
+    messageStyle: "none", //turn off status messages
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    tex2jax: {
+          inlineMath: [ ['$','$'] ],
+          displayMath: [ ['$$','$$'] ],
+    processEscapes:true
+    }
+  });
+</script>
+</body></html>

@@ -1,0 +1,16 @@
+output
+output/*
+*.swp
+.hyde_deps
+*~
+*.pyc
+.DS_Store
+*.cprof
+*.profile
+*.log
+pylint*
+*.tmproj
+dist
+build
+*egg*
+*.tar.gz

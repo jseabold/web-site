@@ -1,0 +1,9 @@
+====================
+Lecture Notes
+====================
+
+Python Intro/Review (1/17) `See the IPython Notebook repository <http://github.com/jseabold/csc432-notebooks>`_
+
+`Git Tutorial (1/17) <lectures/1-git-intro.html>`_
+
+`Introduction (1/14) <lectures/0-intro.html>`_

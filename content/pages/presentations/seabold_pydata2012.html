@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+
+  landslide modifications: Adam Zapletal (adamzap@gmail.com)
+                           Nicolas Perriault (nperriault@gmail.com)
+-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Statsmodels &amp; Patsy</title>
+    <!-- Styles -->
+    
+    <link rel="stylesheet" media="print" href="css/print.css">
+    <link rel="stylesheet" media="screen, projection" href="css/screen.css">
+    
+    
+      
+      <link rel="stylesheet" href="css/extrastyle.css">
+      
+    
+    <!-- /Styles -->
+    <!-- Javascripts -->
+    
+    <script type="text/javascript" src="js/slides.js"></script>
+    
+    
+      
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+      
+    
+    <!-- /Javascripts -->
+</head>
+<body>
+  <div id="blank"></div>
+  <div class="presentation">
+    <div id="current_presenter_notes">
+      <div id="presenter_note"></div>
+    </div>
+    <div class="slides">
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Statsmodels &amp; Patsy</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              1/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Me</h2></header>
+            
+            
+            <section><ul>
+<li>Skipper Seabold</li>
+<li>Economics PhD Student at AU in Washington, DC</li>
+<li>Python user/developer for 5 years</li>
+<li>Twitter: <a href="http://twitter.com/jseabold">@jseabold</a></li>
+<li>Github: <a href="http://github.com/jseabold">jseabold</a></li>
+<li>Slides (these have links and are interactive): <a href="http://jseabold.net/presentations/seabold_pydata2012.html">http://jseabold.net/presentations/seabold_pydata2012.html</a></li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              2/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Statsmodels</h2></header>
+            
+            
+            <section><ul>
+<li>Package for estimating statistical models</li>
+<li>Linear regression models, Generalized Linear Models, Discrete choice models, 
+Robust linear models, Time series analysis, Nonparametric Estimators, Kernel density estimation, Input-output of Stata datasets, Plotting functions, Pandas-compatibility, Extensively tested against existing implementations</li>
+<li>Docs: <a href="statsmoels.sf.net">http://statsmodels.sf.net</a></li>
+<li>Github: <a href="http://github.com/statsmodels/statsmodels">http://github.com/statsmodels/statsmodels</a></li>
+<li>Mailing list: <a href="https://groups.google.com/forum/?fromgroups#!forum/pystatsmodels">https://groups.google.com/group/pystatsmodels</a></li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              3/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code has_notes">
+          <div class="inner">
+            
+            <header><h2>Statsmodels</h2></header>
+            
+            
+            <section><p class="notes">make categorical, add constant, log the data</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">pandas</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://www.ats.ucla.edu/stat/mult_pkg/faq/general/lgtrans.csv&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">female</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="p">[</span><span class="s">&#39;male&#39;</span> <span class="s">&#39;female&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;female&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">female</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">male</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">female</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span><span class="p">[[</span><span class="s">&#39;math&#39;</span><span class="p">,</span> <span class="s">&#39;read&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s">&#39;math&#39;</span><span class="p">,</span> <span class="s">&#39;read&#39;</span><span class="p">]])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;const&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># sm.add_constant(data)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y_name</span> <span class="o">=</span> <span class="s">&#39;write&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x_name</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;const&#39;</span><span class="p">,</span> <span class="s">&#39;female&#39;</span><span class="p">,</span> <span class="s">&#39;math&#39;</span><span class="p">,</span> <span class="s">&#39;read&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">test_scores</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">y_name</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">x_name</span><span class="p">])</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              4/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code has_notes">
+          <div class="inner">
+            
+            <header><h2>Statsmodels Continued</h2></header>
+            
+            
+            <section><p class="notes">what did I log? I cant remember...</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+                            <span class="n">OLS</span> <span class="n">Regression</span> <span class="n">Results</span>                            
+<span class="o">==============================================================================</span>
+<span class="n">Dep</span><span class="o">.</span> <span class="n">Variable</span><span class="p">:</span>                  <span class="n">write</span>   <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span>                       <span class="mf">0.530</span>
+<span class="n">Model</span><span class="p">:</span>                            <span class="n">OLS</span>   <span class="n">Adj</span><span class="o">.</span> <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span>                  <span class="mf">0.523</span>
+<span class="n">Method</span><span class="p">:</span>                 <span class="n">Least</span> <span class="n">Squares</span>   <span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">:</span>                     <span class="mf">73.70</span>
+<span class="n">Date</span><span class="p">:</span>                <span class="n">Tue</span><span class="p">,</span> <span class="mi">23</span> <span class="n">Oct</span> <span class="mi">2012</span>   <span class="n">Prob</span> <span class="p">(</span><span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">):</span>           <span class="mf">5.92e-32</span>
+<span class="n">Time</span><span class="p">:</span>                        <span class="mi">12</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">46</span>   <span class="n">Log</span><span class="o">-</span><span class="n">Likelihood</span><span class="p">:</span>                <span class="o">-</span><span class="mf">657.58</span>
+<span class="n">No</span><span class="o">.</span> <span class="n">Observations</span><span class="p">:</span>                 <span class="mi">200</span>   <span class="n">AIC</span><span class="p">:</span>                             <span class="mf">1323.</span>
+<span class="n">Df</span> <span class="n">Residuals</span><span class="p">:</span>                     <span class="mi">196</span>   <span class="n">BIC</span><span class="p">:</span>                             <span class="mf">1336.</span>
+<span class="n">Df</span> <span class="n">Model</span><span class="p">:</span>                           <span class="mi">3</span>                                         
+<span class="o">==============================================================================</span>
+                 <span class="n">coef</span>    <span class="n">std</span> <span class="n">err</span>          <span class="n">t</span>      <span class="n">P</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span>      <span class="p">[</span><span class="mf">95.0</span><span class="o">%</span> <span class="n">Conf</span><span class="o">.</span> <span class="n">Int</span><span class="o">.</span><span class="p">]</span>
+<span class="o">------------------------------------------------------------------------------</span>
+<span class="n">const</span>        <span class="o">-</span><span class="mf">99.1640</span>     <span class="mf">10.804</span>     <span class="o">-</span><span class="mf">9.178</span>      <span class="mf">0.000</span>      <span class="o">-</span><span class="mf">120.471</span>   <span class="o">-</span><span class="mf">77.857</span>
+<span class="n">female</span>         <span class="mf">5.3888</span>      <span class="mf">0.931</span>      <span class="mf">5.789</span>      <span class="mf">0.000</span>         <span class="mf">3.553</span>     <span class="mf">7.224</span>
+<span class="n">math</span>          <span class="mf">20.9410</span>      <span class="mf">3.431</span>      <span class="mf">6.104</span>      <span class="mf">0.000</span>        <span class="mf">14.175</span>    <span class="mf">27.707</span>
+<span class="n">read</span>          <span class="mf">16.8522</span>      <span class="mf">3.063</span>      <span class="mf">5.501</span>      <span class="mf">0.000</span>        <span class="mf">10.811</span>    <span class="mf">22.894</span>
+<span class="o">==============================================================================</span>
+<span class="n">Omnibus</span><span class="p">:</span>                        <span class="mf">2.259</span>   <span class="n">Durbin</span><span class="o">-</span><span class="n">Watson</span><span class="p">:</span>                   <span class="mf">1.999</span>
+<span class="n">Prob</span><span class="p">(</span><span class="n">Omnibus</span><span class="p">):</span>                  <span class="mf">0.323</span>   <span class="n">Jarque</span><span class="o">-</span><span class="n">Bera</span> <span class="p">(</span><span class="n">JB</span><span class="p">):</span>                <span class="mf">2.286</span>
+<span class="n">Skew</span><span class="p">:</span>                          <span class="o">-</span><span class="mf">0.253</span>   <span class="n">Prob</span><span class="p">(</span><span class="n">JB</span><span class="p">):</span>                        <span class="mf">0.319</span>
+<span class="n">Kurtosis</span><span class="p">:</span>                       <span class="mf">2.866</span>   <span class="n">Cond</span><span class="o">.</span> <span class="n">No</span><span class="o">.</span>                         <span class="mf">135.</span>
+<span class="o">==============================================================================</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              5/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Statsmodels Continued</h2></header>
+            
+            
+            <section><p>What is the predicted test score of this hypothetical student?</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">70</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="mf">2447.04000815</span>
+</pre></div>
+
+<p>Huh? Oh, right</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">65</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">70</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="mf">65.2368994986</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              6/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_notes">
+          <div class="inner">
+            
+            <header><h2>Patsy</h2></header>
+            
+            
+            <section><p class="notes">mention Nathaniel</p>
+<div style="font-size: 28px;">"It's only a model"</div>
+
+<p><img alt="PATSY" src="img/patsy_holygrail.jpeg" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              7/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code has_notes">
+          <div class="inner">
+            
+            <header><h2>Statsmodels w/ Patsy</h2></header>
+            
+            
+            <section><p class="notes">point out the import, patsy can use anything in the calling namespace, uses the tokenize module so it can robustly handle any arbitray Python code</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">import</span> <span class="n">ols</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://www.ats.ucla.edu/stat/mult_pkg/faq/general/lgtrans.csv&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="s">&quot;write ~ C(female) + np.log(math) + np.log(read)&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">test_scores</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              8/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code has_notes">
+          <div class="inner">
+            
+            <header><h2>Statsmodels w/ Patsy Continued</h2></header>
+            
+            
+            <section><p class="notes">this does what we expect and gives us useful information on the transformations</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+                            <span class="n">OLS</span> <span class="n">Regression</span> <span class="n">Results</span>                            
+<span class="o">==============================================================================</span>
+<span class="n">Dep</span><span class="o">.</span> <span class="n">Variable</span><span class="p">:</span>                  <span class="n">write</span>   <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span>                       <span class="mf">0.530</span>
+<span class="n">Model</span><span class="p">:</span>                            <span class="n">OLS</span>   <span class="n">Adj</span><span class="o">.</span> <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span>                  <span class="mf">0.523</span>
+<span class="n">Method</span><span class="p">:</span>                 <span class="n">Least</span> <span class="n">Squares</span>   <span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">:</span>                     <span class="mf">73.70</span>
+<span class="n">Date</span><span class="p">:</span>                <span class="n">Tue</span><span class="p">,</span> <span class="mi">23</span> <span class="n">Oct</span> <span class="mi">2012</span>   <span class="n">Prob</span> <span class="p">(</span><span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">):</span>           <span class="mf">5.92e-32</span>
+<span class="n">Time</span><span class="p">:</span>                        <span class="mi">12</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mi">14</span>   <span class="n">Log</span><span class="o">-</span><span class="n">Likelihood</span><span class="p">:</span>                <span class="o">-</span><span class="mf">657.58</span>
+<span class="n">No</span><span class="o">.</span> <span class="n">Observations</span><span class="p">:</span>                 <span class="mi">200</span>   <span class="n">AIC</span><span class="p">:</span>                             <span class="mf">1323.</span>
+<span class="n">Df</span> <span class="n">Residuals</span><span class="p">:</span>                     <span class="mi">196</span>   <span class="n">BIC</span><span class="p">:</span>                             <span class="mf">1336.</span>
+<span class="n">Df</span> <span class="n">Model</span><span class="p">:</span>                           <span class="mi">3</span>                                         
+<span class="o">=====================================================================================</span>
+                        <span class="n">coef</span>    <span class="n">std</span> <span class="n">err</span>          <span class="n">t</span>      <span class="n">P</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span>      <span class="p">[</span><span class="mf">95.0</span><span class="o">%</span> <span class="n">Conf</span><span class="o">.</span> <span class="n">Int</span><span class="o">.</span><span class="p">]</span>
+<span class="o">-------------------------------------------------------------------------------------</span>
+<span class="n">Intercept</span>           <span class="o">-</span><span class="mf">93.7752</span>     <span class="mf">10.766</span>     <span class="o">-</span><span class="mf">8.710</span>      <span class="mf">0.000</span>      <span class="o">-</span><span class="mf">115.007</span>   <span class="o">-</span><span class="mf">72.543</span>
+<span class="n">C</span><span class="p">(</span><span class="n">female</span><span class="p">)[</span><span class="n">T</span><span class="o">.</span><span class="n">male</span><span class="p">]</span>    <span class="o">-</span><span class="mf">5.3888</span>      <span class="mf">0.931</span>     <span class="o">-</span><span class="mf">5.789</span>      <span class="mf">0.000</span>        <span class="o">-</span><span class="mf">7.224</span>    <span class="o">-</span><span class="mf">3.553</span>
+<span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">math</span><span class="p">)</span>         <span class="mf">20.9410</span>      <span class="mf">3.431</span>      <span class="mf">6.104</span>      <span class="mf">0.000</span>        <span class="mf">14.175</span>    <span class="mf">27.707</span>
+<span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">read</span><span class="p">)</span>         <span class="mf">16.8522</span>      <span class="mf">3.063</span>      <span class="mf">5.501</span>      <span class="mf">0.000</span>        <span class="mf">10.811</span>    <span class="mf">22.894</span>
+<span class="o">==============================================================================</span>
+<span class="n">Omnibus</span><span class="p">:</span>                        <span class="mf">2.259</span>   <span class="n">Durbin</span><span class="o">-</span><span class="n">Watson</span><span class="p">:</span>                   <span class="mf">1.999</span>
+<span class="n">Prob</span><span class="p">(</span><span class="n">Omnibus</span><span class="p">):</span>                  <span class="mf">0.323</span>   <span class="n">Jarque</span><span class="o">-</span><span class="n">Bera</span> <span class="p">(</span><span class="n">JB</span><span class="p">):</span>                <span class="mf">2.286</span>
+<span class="n">Skew</span><span class="p">:</span>                          <span class="o">-</span><span class="mf">0.253</span>   <span class="n">Prob</span><span class="p">(</span><span class="n">JB</span><span class="p">):</span>                        <span class="mf">0.319</span>
+<span class="n">Kurtosis</span><span class="p">:</span>                       <span class="mf">2.866</span>   <span class="n">Cond</span><span class="o">.</span> <span class="n">No</span><span class="o">.</span>                         <span class="mf">135.</span>
+<span class="o">==============================================================================</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              9/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Statsmodels w/ Patsy Continued</h2></header>
+            
+            
+            <section><div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">X</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&#39;female&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">70</span><span class="p">]]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">X</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;female&quot;</span><span class="p">,</span> <span class="s">&quot;math&quot;</span><span class="p">,</span> <span class="s">&quot;read&quot;</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="p">[</span> <span class="mf">65.2368995</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">X</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">female</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;female&#39;</span><span class="p">],</span> <span class="n">read</span><span class="o">=</span><span class="p">[</span><span class="mi">70</span><span class="p">],</span> <span class="n">math</span><span class="o">=</span><span class="p">[</span><span class="mi">65</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="p">[</span> <span class="mf">65.2368995</span><span class="p">]</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              10/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Patsy Overview</h2></header>
+            
+            
+            <section><ul>
+<li>Patsy is a front-end</li>
+<li>Description of statistical models through formulas</li>
+<li>Arbitrary data transformations</li>
+<li>Codings for categorical variables</li>
+<li>Linear constraint matrices</li>
+<li>Handle big data sets incrementally</li>
+<li>Theoretical foundations and improvements over R</li>
+<li>Patsy does not do statistics</li>
+<li>Docs: <a href="https://patsy.readthedocs.org/">https://patsy.readthedocs.org/</a></li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              11/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Formulas</h2></header>
+            
+            
+            <section><p><img alt="Formula-Structure" src="img/formula-structure.png" /></p>
+<div class="formula">y ~ a + a:b + np.log(x)</div>
+
+<ul>
+<li>LHS, RHS</li>
+<li>Terms separated by "+"</li>
+<li>Intercept handling</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              12/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Formula Syntax</h2></header>
+            
+            
+            <section><table>
+
+<thead>
+    <tr>
+        <th>Operator</th>
+        <th>Meaning</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td class="operator">~</td>
+        <td>Separate the left-hand side from the right-hand side. If omitted, formula is assumed right-hand side only.</td>
+    </tr>
+    <tr>
+        <td class="operator">+</td>
+        <td>Combines terms on either side (set union).</td>
+    </tr>
+    <tr>
+        <td class="operator">-</td>
+        <td>Removes terms on the right from set of terms on the left (set difference).</td>
+    </tr>
+    <tr>
+        <td class="operator">*</td>
+        <td>a*b is shorthand for the expansion a + b + a:b.</td>
+    </tr>
+    <tr>
+        <td class="operator">/</td>
+        <td>a/b is shorthand for the expansion a + a:b. It is used when b is nested within a (e.g., states and counties)</td>
+    </tr>
+    <tr>
+        <td class="operator">:</td>
+        <td>Computes the interaction between terms on the left and right.</td>
+    </tr>
+    <tr>
+        <td class="operator">**</td>
+        <td>Takes a set of terms on the left and an integer <emph>n</emph> on the right and computes the <emph>*</emph> of that set of terms with itself <emph>n</emph> times.</td>
+    </tr>
+</tbody>
+
+</table></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              13/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Formula Syntax Continued</h2></header>
+            
+            
+            <section><ul>
+
+ <li>Confused? Explore for yourself.</li>
+
+</ul>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">patsy</span> <span class="kn">import</span> <span class="n">EvalEnvironment</span><span class="p">,</span> <span class="n">ModelDesc</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">env</span> <span class="o">=</span> <span class="n">EvalEnvironment</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">formula</span> <span class="o">=</span> <span class="s">&quot;y ~ (a + b):(c + d)&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">desc</span> <span class="o">=</span> <span class="n">ModelDesc</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">desc</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="s">&#39;y ~ a:c + a:d + b:c + b:d&#39;</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              14/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Terms vs. Factors</h2></header>
+            
+            
+            <section><div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">desc</span><span class="o">.</span><span class="n">rhs_termlist</span>
+<span class="p">(</span><span class="n">Term</span><span class="p">([]),</span>
+ <span class="n">Term</span><span class="p">([</span><span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">),</span> <span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">)]),</span>
+ <span class="n">Term</span><span class="p">([</span><span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">),</span> <span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">)]),</span>
+ <span class="n">Term</span><span class="p">([</span><span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">),</span> <span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">)]),</span>
+ <span class="n">Term</span><span class="p">([</span><span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">),</span> <span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">)]))</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">term</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">rhs_termlist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">term</span><span class="o">.</span><span class="n">factors</span>
+<span class="p">(</span><span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">),</span> <span class="n">EvalFactor</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">))</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              15/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Factors</h2></header>
+            
+            
+            <section><ul>
+<li>These are not R factors</li>
+<li>Factors can be arbitrary Python code <emph>log(x) if x &gt; 1e-5 else log(1e-5)</emph></li>
+<li>How to tell Python operators from Patsy operators?<ul>
+<li>Python code factors begin when a token is not a Patsy operator or a paranthesis</li>
+<li>They end when there is a token that is not a Patsy token and it is not in a paranthesis-like expression (), ], })</li>
+</ul>
+</li>
+</ul>
+<p>&nbsp;</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">formula</span> <span class="o">=</span> <span class="s">&quot;(x1*x2)**2&quot;</span> <span class="c"># patsy factors</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">desc</span> <span class="o">=</span> <span class="n">ModelDesc</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">desc</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="s">&#39;~ x1 + x2 + x1:x2&#39;</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">formula</span> <span class="o">=</span> <span class="s">&quot;I((x1+x2)**2)&quot;</span> <span class="c"># Python factors</span>
+<span class="s">&#39;~ I((x1 + x2) ** 2)&#39;</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              16/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Categorical Variables</h2></header>
+            
+            
+            <section><ul>
+  <li>There are no fully-featured categorical data types in Python...yet.</li>
+  <li>String variables by default are encoded using the <emph>Treatment</emph> contrast (aka "Dummy Variable Coding")
+</ul>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">patsy</span> <span class="kn">import</span> <span class="n">dmatrix</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dta</span> <span class="o">=</span>  <span class="n">DataFrame</span><span class="p">([[</span><span class="s">&quot;lo&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">],[</span><span class="s">&quot;hi&quot;</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">],[</span><span class="s">&quot;lo&quot;</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],[</span><span class="s">&quot;lo&quot;</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">]],</span>
+                      <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;carbs&quot;</span><span class="p">,</span> <span class="s">&quot;score&quot;</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dmatrix</span><span class="p">(</span><span class="s">&quot;carbs + score&quot;</span><span class="p">,</span> <span class="n">dta</span><span class="p">)</span>
+<span class="n">DesignMatrix</span> <span class="k">with</span> <span class="n">shape</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="n">Intercept</span>  <span class="n">carbs</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">lo</span><span class="p">]</span>  <span class="n">score</span>
+          <span class="mi">1</span>            <span class="mi">1</span>    <span class="mf">1.0</span>
+          <span class="mi">1</span>            <span class="mi">0</span>    <span class="mf">2.4</span>
+          <span class="mi">1</span>            <span class="mi">1</span>    <span class="mf">1.2</span>
+          <span class="mi">1</span>            <span class="mi">1</span>    <span class="mf">1.4</span>
+  <span class="n">Terms</span><span class="p">:</span>
+    <span class="s">&#39;Intercept&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="s">&#39;carbs&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="s">&#39;score&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              17/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code has_notes">
+          <div class="inner">
+            
+            <header><h2>Categorical Variables Continued</h2></header>
+            
+            
+            <section><ul>
+  <li>We can change the reference category by being explicit</li>
+</ul>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">dmatrix</span><span class="p">(</span><span class="s">&quot;C(carbs, Treatment(reference=&#39;lo&#39;)) + score&quot;</span><span class="p">,</span> <span class="n">dta</span><span class="p">)</span>
+<span class="n">DesignMatrix</span> <span class="k">with</span> <span class="n">shape</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="n">Intercept</span>  <span class="n">C</span><span class="p">(</span><span class="n">carbs</span><span class="p">,</span> <span class="n">Treatment</span><span class="p">(</span><span class="n">reference</span><span class="o">=</span><span class="s">&#39;lo&#39;</span><span class="p">))[</span><span class="n">T</span><span class="o">.</span><span class="n">hi</span><span class="p">]</span>  <span class="n">score</span>
+          <span class="mi">1</span>                                          <span class="mi">0</span>    <span class="mf">1.0</span>
+          <span class="mi">1</span>                                          <span class="mi">1</span>    <span class="mf">2.4</span>
+          <span class="mi">1</span>                                          <span class="mi">0</span>    <span class="mf">1.2</span>
+          <span class="mi">1</span>                                          <span class="mi">0</span>    <span class="mf">1.4</span>
+  <span class="n">Terms</span><span class="p">:</span>
+    <span class="s">&#39;Intercept&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="s">&quot;C(carbs, Treatment(reference=&#39;lo&#39;))&quot;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="s">&#39;score&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+<h2>Contrasts</h2>
+<p class="notes">if you have never heard of a contrast, then you are likely ok with the default. if you are a statistician, then why aren`t you contributing code to statsmodels?</p>
+<ul>
+<li>The coefficients on different levels of a Categorical variable depend on what statisticians call a <emph>Contrast</emph>.</li>
+<li>Standard contrasts available in Patsy: treatment, backward difference, orthogonal polynomials, sum-to-zero, and Helmert</li>
+<li>It is quite simple to write your own as well by following the <a href="https://patsy.readthedocs.org/en/latest/categorical-coding.html">documentation</a>.</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              18/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Stateful Transforms</h2></header>
+            
+            
+            <section><ul>
+  <li>If you are careful, Patsy does the right thing.</li>
+  <li>The problem:</li>
+</ul>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">patsy</span> <span class="kn">import</span> <span class="n">dmatrix</span><span class="p">,</span> <span class="n">build_design_matrices</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">naive_center</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="o">...</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">...</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">...</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;x&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mat</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">(</span><span class="s">&quot;naive_center(x)&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mat</span>
+<span class="n">DesignMatrix</span> <span class="k">with</span> <span class="n">shape</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="n">Intercept</span>  <span class="n">naive_center</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+          <span class="mi">1</span>             <span class="o">-</span><span class="mf">1.5</span>
+          <span class="mi">1</span>             <span class="o">-</span><span class="mf">0.5</span>
+          <span class="mi">1</span>              <span class="mf">0.5</span>
+          <span class="mi">1</span>              <span class="mf">1.5</span>
+  <span class="n">Terms</span><span class="p">:</span>
+    <span class="s">&#39;Intercept&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="s">&#39;naive_center(x)&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              19/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Stateful Transforms</h2></header>
+            
+            
+            <section><div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">new_data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;x&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">build_design_matrices</span><span class="p">([</span><span class="n">mat</span><span class="o">.</span><span class="n">design_info</span><span class="o">.</span><span class="n">builder</span><span class="p">],</span> <span class="n">new_data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">DesignMatrix</span> <span class="k">with</span> <span class="n">shape</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="n">Intercept</span>  <span class="n">naive_center</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+          <span class="mi">1</span>             <span class="o">-</span><span class="mf">1.5</span>
+          <span class="mi">1</span>             <span class="o">-</span><span class="mf">0.5</span>
+          <span class="mi">1</span>              <span class="mf">0.5</span>
+          <span class="mi">1</span>              <span class="mf">1.5</span>
+  <span class="n">Terms</span><span class="p">:</span>
+    <span class="s">&#39;Intercept&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="s">&#39;naive_center(x)&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              20/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Stateful Transforms</h2></header>
+            
+            
+            <section><ul>
+ <li>Patsy has built-in transforms that will remember the state of the original transform like <a href="http://patsy.readthedocs.org/en/latest/API-reference.html#patsy.center">center</a>, <a href="http://patsy.readthedocs.org/en/latest/API-reference.html#patsy.standardize">standardize</a> (or <a href="http://patsy.readthedocs.org/en/latest/API-reference.html#patsy.scale">scale</a>).</li>
+</ul>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">fixed_mat</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="s">&quot;center(x)&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fixed_mat</span>
+<span class="n">DesignMatrix</span> <span class="k">with</span> <span class="n">shape</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                                                  
+  <span class="n">Intercept</span>  <span class="n">center</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                                                          
+          <span class="mi">1</span>       <span class="o">-</span><span class="mf">1.5</span>
+          <span class="mi">1</span>       <span class="o">-</span><span class="mf">0.5</span>
+          <span class="mi">1</span>        <span class="mf">0.5</span>
+          <span class="mi">1</span>        <span class="mf">1.5</span>
+  <span class="n">Terms</span><span class="p">:</span>
+    <span class="s">&#39;Intercept&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="s">&#39;center(x)&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">1</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">build_design_matrices</span><span class="p">([</span><span class="n">fixed_mat</span><span class="o">.</span><span class="n">design_info</span><span class="o">.</span><span class="n">builder</span><span class="p">],</span> <span class="n">new_data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">DesignMatrix</span> <span class="k">with</span> <span class="n">shape</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="n">Intercept</span>  <span class="n">center</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+          <span class="mi">1</span>        <span class="mf">2.5</span>
+          <span class="mi">1</span>        <span class="mf">3.5</span>
+          <span class="mi">1</span>        <span class="mf">4.5</span>
+          <span class="mi">1</span>        <span class="mf">5.5</span>
+  <span class="n">Terms</span><span class="p">:</span>
+    <span class="s">&#39;Intercept&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="s">&#39;center(x)&#39;</span> <span class="p">(</span><span class="n">column</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              21/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Writing your own Stateful Transform</h2></header>
+            
+            
+            <section><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyTransform</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mean</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">memorize_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c"># Updates internal state, this is called one or more times</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_total</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">memorize_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># this is called once after memorize chunk as called as many times </span>
+        <span class="c"># as needed, for example, after reading in chunks of data incrementally</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c"># this is called one or more times on old and new data</span>
+        <span class="c"># args are the same as memorize_chunk</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              22/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Testing Hypotheses</h2></header>
+            
+            
+            <section><ul>
+  <li>Test linear hypotheses of the form \(R\beta= q\) (or \(R\beta - q = 0\))</li>
+</ul>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://www.ats.ucla.edu/stat//mult_pkg/faq/general/lgtrans.csv&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="s">&quot;write ~ female + log(math) + log(read)&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">test_scores</span> <span class="o">=</span> <span class="n">ols</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">f_test</span><span class="p">(</span><span class="s">&quot;log(read) = log(math)&quot;</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">F</span> <span class="n">test</span><span class="p">:</span> <span class="n">F</span><span class="o">=</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.47954952</span><span class="p">]]),</span> <span class="n">p</span><span class="o">=</span><span class="p">[[</span> <span class="mf">0.48944607</span><span class="p">]],</span> <span class="n">df_denom</span><span class="o">=</span><span class="mi">196</span><span class="p">,</span> <span class="n">df_num</span><span class="o">=</span><span class="mi">1</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">f_test</span><span class="p">(</span><span class="s">&quot;log(read) = log(math) = 30&quot;</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">F</span> <span class="n">test</span><span class="p">:</span> <span class="n">F</span><span class="o">=</span><span class="n">array</span><span class="p">([[</span> <span class="mf">34.94492186</span><span class="p">]]),</span> <span class="n">p</span><span class="o">=</span><span class="p">[[</span>  <span class="mf">1.04790910e-13</span><span class="p">]],</span> <span class="n">df_denom</span><span class="o">=</span><span class="mi">196</span><span class="p">,</span> <span class="n">df_num</span><span class="o">=</span><span class="mi">2</span><span class="o">&gt;</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              23/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide has_code">
+          <div class="inner">
+            
+            <header><h2>Testing Hypotheses Continued</h2></header>
+            
+            
+            <section><div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">patsy</span> <span class="kn">import</span> <span class="n">DesignInfo</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">info</span> <span class="o">=</span> <span class="n">DesignInfo</span><span class="p">(</span><span class="n">test_scores</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog_names</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">info</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="s">&#39;1 + C(female)[T.male] + log(math) + log(read)&#39;</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">LC</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">linear_constraint</span><span class="p">(</span><span class="s">&quot;log(read) = 20, log(math) = 20&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">LC</span><span class="o">.</span><span class="n">coefs</span> <span class="c"># R</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">],</span>
+   <span class="p">[</span> <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">]])</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">LC</span><span class="o">.</span><span class="n">constants</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">20.</span><span class="p">],</span>
+   <span class="p">[</span><span class="mf">20.</span><span class="p">]])</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">LC</span><span class="o">.</span><span class="n">coefs</span><span class="p">,</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+<span class="p">[</span> <span class="mf">16.85217528</span>  <span class="mf">20.94096826</span><span class="p">]</span>
+</pre></div>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              24/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: slides.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Slides</h2></header>
+            
+            
+            <section><ul>
+<li>Thanks! <a href="https://github.com/adamzap/landslide">https://github.com/adamzap/landslide</a></li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="slides.md">slides.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              25/25
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="toc" class="sidebar hidden">
+    <h2>Table of Contents</h2>
+    <table>
+      <caption>Table of Contents</caption>
+      
+      <tr id="toc-row-1">
+        <th><a href="#slide1">Statsmodels &amp; Patsy</a></th>
+        <td><a href="#slide1">1</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-2" class="sub">
+          <th><a href="#slide2">Me</a></th>
+          <td><a href="#slide2">2</a></td>
+        </tr>
+        
+        <tr id="toc-row-3" class="sub">
+          <th><a href="#slide3">Statsmodels</a></th>
+          <td><a href="#slide3">3</a></td>
+        </tr>
+        
+        <tr id="toc-row-4" class="sub">
+          <th><a href="#slide4">Statsmodels</a></th>
+          <td><a href="#slide4">4</a></td>
+        </tr>
+        
+        <tr id="toc-row-5" class="sub">
+          <th><a href="#slide5">Statsmodels Continued</a></th>
+          <td><a href="#slide5">5</a></td>
+        </tr>
+        
+        <tr id="toc-row-6" class="sub">
+          <th><a href="#slide6">Statsmodels Continued</a></th>
+          <td><a href="#slide6">6</a></td>
+        </tr>
+        
+        <tr id="toc-row-7" class="sub">
+          <th><a href="#slide7">Patsy</a></th>
+          <td><a href="#slide7">7</a></td>
+        </tr>
+        
+        <tr id="toc-row-8" class="sub">
+          <th><a href="#slide8">Statsmodels w/ Patsy</a></th>
+          <td><a href="#slide8">8</a></td>
+        </tr>
+        
+        <tr id="toc-row-9" class="sub">
+          <th><a href="#slide9">Statsmodels w/ Patsy Continued</a></th>
+          <td><a href="#slide9">9</a></td>
+        </tr>
+        
+        <tr id="toc-row-10" class="sub">
+          <th><a href="#slide10">Statsmodels w/ Patsy Continued</a></th>
+          <td><a href="#slide10">10</a></td>
+        </tr>
+        
+        <tr id="toc-row-11" class="sub">
+          <th><a href="#slide11">Patsy Overview</a></th>
+          <td><a href="#slide11">11</a></td>
+        </tr>
+        
+        <tr id="toc-row-12" class="sub">
+          <th><a href="#slide12">Formulas</a></th>
+          <td><a href="#slide12">12</a></td>
+        </tr>
+        
+        <tr id="toc-row-13" class="sub">
+          <th><a href="#slide13">Formula Syntax</a></th>
+          <td><a href="#slide13">13</a></td>
+        </tr>
+        
+        <tr id="toc-row-14" class="sub">
+          <th><a href="#slide14">Formula Syntax Continued</a></th>
+          <td><a href="#slide14">14</a></td>
+        </tr>
+        
+        <tr id="toc-row-15" class="sub">
+          <th><a href="#slide15">Terms vs. Factors</a></th>
+          <td><a href="#slide15">15</a></td>
+        </tr>
+        
+        <tr id="toc-row-16" class="sub">
+          <th><a href="#slide16">Factors</a></th>
+          <td><a href="#slide16">16</a></td>
+        </tr>
+        
+        <tr id="toc-row-17" class="sub">
+          <th><a href="#slide17">Categorical Variables</a></th>
+          <td><a href="#slide17">17</a></td>
+        </tr>
+        
+        <tr id="toc-row-18" class="sub">
+          <th><a href="#slide18">Categorical Variables Continued</a></th>
+          <td><a href="#slide18">18</a></td>
+        </tr>
+        
+        <tr id="toc-row-19" class="sub">
+          <th><a href="#slide19">Stateful Transforms</a></th>
+          <td><a href="#slide19">19</a></td>
+        </tr>
+        
+        <tr id="toc-row-20" class="sub">
+          <th><a href="#slide20">Stateful Transforms</a></th>
+          <td><a href="#slide20">20</a></td>
+        </tr>
+        
+        <tr id="toc-row-21" class="sub">
+          <th><a href="#slide21">Stateful Transforms</a></th>
+          <td><a href="#slide21">21</a></td>
+        </tr>
+        
+        <tr id="toc-row-22" class="sub">
+          <th><a href="#slide22">Writing your own Stateful Transform</a></th>
+          <td><a href="#slide22">22</a></td>
+        </tr>
+        
+        <tr id="toc-row-23" class="sub">
+          <th><a href="#slide23">Testing Hypotheses</a></th>
+          <td><a href="#slide23">23</a></td>
+        </tr>
+        
+        <tr id="toc-row-24" class="sub">
+          <th><a href="#slide24">Testing Hypotheses Continued</a></th>
+          <td><a href="#slide24">24</a></td>
+        </tr>
+        
+        <tr id="toc-row-25" class="sub">
+          <th><a href="#slide25">Slides</a></th>
+          <td><a href="#slide25">25</a></td>
+        </tr>
+        
+      
+      
+    </table>
+  </div>
+  
+  <div id="help" class="sidebar hidden">
+    <h2>Help</h2>
+    <table>
+      <caption>Help</caption>
+      <tr>
+        <th>Table of Contents</th>
+        <td>t</td>
+      </tr>
+      <tr>
+        <th>Exposé</th>
+        <td>ESC</td>
+      </tr>
+      <tr>
+        <th>Full screen slides</th>
+        <td>e</td>
+      </tr>
+      <tr>
+        <th>Presenter View</th>
+        <td>p</td>
+      </tr>
+      <tr>
+        <th>Source Files</th>
+        <td>s</td>
+      </tr>
+      <tr>
+        <th>Slide Numbers</th>
+        <td>n</td>
+      </tr>
+      <tr>
+        <th>Toggle screen blanking</th>
+        <td>b</td>
+      </tr>
+      <tr>
+        <th>Show/hide slide context</th>
+        <td>c</td>
+      </tr>
+      <tr>
+        <th>Notes</th>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>Help</th>
+        <td>h</td>
+      </tr>
+    </table>
+  </div>
+  <script>main()</script>
+</body>
+</html>

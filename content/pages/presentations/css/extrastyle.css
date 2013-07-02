@@ -1,0 +1,116 @@
+/* Code Blocks */
+
+pre {
+  text-align: left;
+  font-family: 'Droid Sans Mono', Courier;
+  padding: 10px 20px;
+  background: rgba(255, 0, 0, 0.05);
+  -webkit-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+/* Tables */
+
+table {
+    font-size: 18px;
+}
+
+thead {
+    font-size: 20px;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+th {
+    padding: 15px;
+}
+
+.operator {
+    text-align: center;
+}
+
+tbody tr:nth-child(odd)
+{
+    /*background-color: rgba(173, 216, 230, 0.1); /* light blue, 10% alpha */
+    background-color: rgba(0, 191, 255, 0.1); /* light blue, 10% alpha */
+}
+
+tbody tr:nth-child(even)
+{
+    background-color: rgba(175, 238, 238, 0.3); /* white, 30% alpha */
+}
+
+/* Pretty print */
+
+.prettyprint .str, /* string content */
+.prettyprint .atv { /* a markup attribute value */
+  color: rgb(0, 138, 53); 
+}  
+.prettyprint .kwd, /* a keyword */
+.prettyprint .tag { /* a markup tag name */
+  color: rgb(0, 102, 204);
+}
+.prettyprint .com { /* a comment */
+  color: rgb(127, 127, 127); 
+  font-style: italic; 
+}  
+.prettyprint .lit { /* a literal value */
+  color: rgb(127, 0, 0);
+}  
+.prettyprint .pun, /* punctuation, lisp open bracket, lisp close bracket */
+.prettyprint .opn, 
+.prettyprint .clo { 
+  color: rgb(127, 127, 127); 
+}
+.prettyprint .typ, /* a type name */
+.prettyprint .atn, /* a markup attribute name */ 
+.prettyprint .dec, 
+.prettyprint .var { /* a declaration; a variable name */
+  color: rgb(127, 0, 127);
+}
+
+.formula
+{
+  width: 10em;
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Droid Sans';
+  color: black;
+  display: block;
+  padding: 6px 10px 3px 10px;
+  font-size: 35px;
+  line-height: 40px;
+  text-shadow: none;
+  letter-spacing: 0;
+  bottom: 10px;
+  position: relative;
+  -moz-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+  -o-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff4), to(#ffa));
+  background-color: #ff4;
+  background: -moz-linear-gradient(left top, #ff4, #ffa);
+}
+
+/* emph is something like using `` in rst */
+
+emph 
+{
+  background: rgba(255, 0, 0, 0.05);
+  -webkit-border-radius: 2px;
+  -khtml-border-radius: 2px;
+  -moz-border-radius: 2px;
+  padding: 0px 1px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}

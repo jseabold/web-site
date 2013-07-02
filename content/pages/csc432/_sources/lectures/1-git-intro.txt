@@ -1,0 +1,95 @@
+:orphan:
+
+===========================
+A Quick Introduction to Git
+===========================
+
+This is a quick and dirty introduction to Git. It is intended to get you up to speed with what Git is all about. It is not a substitute for a technical manual or even a full tutorial. If you want to read a technical description of Git and really understand what is going on under the hood or get a proper introductory tutorial, there are many resources online. For a more detailed but easy to understand introduction, see the `Pro Git Book <http://git-scm.com/documentation>`_. The `Git Reference <http://gitref.org/>`_ has come highly recommended as both a tutorial and a reference. Matthew Brett's `Pydagogue <http://matthew-brett.github.com/pydagogue/foundation.html>`_ is also a good introduction.
+
+What is Git?
+------------
+
+Git is a version control system developed by Linus Torvalds of Linux fame for working on the Linux kernel. It is intended to foster *distributed* development. That is, it works well for many people working on the same project, though it is perfectly reasonable for a single developer to be working on a project. You can use Git to track changes of any project from a paper you are writing to a web page you are working on.
+
+Version Control
+---------------
+
+If you have ever used tools such as Subversion, CVS, Bazaar, or Mercurial, then you already know what verson control is. If not, you can think of version control as being somewhat analagous to tracking changes in a Microsoft Word document. A project has one main data store, the *repository*. On a distributed project (ie., one with many developers working on the same project) people will make changes on their machine, *commit* the changes, and then push the changes to the remote repository. Each commit is accompanied by a timestamp and the author of the commit.
+
+Basic Workflow
+--------------
+
+#. You modify files in your local working directory.
+#. You stage the files, which adds a snapshot of your file to the staging area.
+#. You do a commit, which takes the files in the staging area and stores the snapshot permanently to your Git directory.
+
+Example
+-------
+
+Initialize a Repository in an Existing Directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Go to the existing directory and type::
+
+    $ git init
+
+If this repository does not have any files yet. Create some.::
+
+    $ touch README
+    
+Let's check the status of the repository.::
+
+    $ git status
+    # On branch master
+    #
+    # Initial commit
+    #
+    # Untracked files:
+    #   (use "git add <file>..." to include in what will be committed)                                                 
+    #                                                                                                                  
+    #       README
+
+It shows that we have a new untracked file. We want to *add* this file to the staging area.::
+
+    $ git add README
+
+Now check the status.::
+
+    $ git status
+    # On branch master
+    #
+    # Initial commit
+    #
+    # Changes to be committed:
+    #   (use "git rm --cached <file>..." to unstage)
+    #
+    #       new file:   README
+
+You can see that it is now in the staging area. We're now ready to make our first commit.::
+
+    $ git commit -m "Added a README file."
+    [master (root-commit) d4f85ed] Added a README file
+     0 files changed
+     create mode 100644 README
+
+We can check the status again::
+
+    $ git status
+    # On branch master
+    nothing to commit (working directory clean)
+
+Looks good, but what was our last commit again? We can check the log to make sure.::
+
+    $ git log
+    commit d4f85ed636a012d0fc19d4ae569876d978133ae1
+    Author: Skipper Seabold <jsseabold@gmail.com>
+    Date:   Thu Jan 17 09:40:24 2013 -0500
+
+        Added a README file
+
+Looks like we're good. The last step is to *push* the changes up to the remote repository we set up on Github. That way, we can get our changes from any other computer with Git. Or your collaborating developers can update their local repository with your changes. First we need to link our local repository to the remote one on Github. We do this via the *remote* command.::
+
+    $ git remote add origin git@github.com:jseabold/example-repo.git
+    $ git push -u origin master
+
+That is the *very* barebones basics of Git. Git is a very powerful piece of software, however. We will explore some more of the features of Git as the course goes on.

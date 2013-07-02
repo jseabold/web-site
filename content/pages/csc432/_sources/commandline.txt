@@ -1,0 +1,15 @@
+================================
+Introduction to the Command Line
+================================
+
+
+Using the Command Line
+----------------------
+
+Lifehacker provides a pretty good `introduction to the command line <http://lifehacker.com/5633909/who-needs-a-mouse-learn-to-use-the-command-line-for-almost-anything>`_ aimed at Linux and OS X users. If you're not very familiar with the command line, I recommend giving it a look. If you're on Windows, don't worry. Though you may be less reliant in general on the command line, you can have a full Unix-like environment or just get a lot of these same helpful tools. See the next section.
+
+
+Windows Users
+-------------
+
+Many people advise installing and using `Cygwin <http://www.cygwin.com/>`_ on Windows. Cygwin is a linux-like shell environment for Windows. If you want a full bash shell, then this is the way to go. The Lifehacker post above has a series on Cygwin, if you're interested in this. Installing and using Cygwin does, however, add a layer of abstraction that may be daunting for Windows users. If you don't want a full Linux-like environment but aren't content to live with Windows' crippled cmd.exe Command Prompt, I suggest that you augment the command prompt with `GnuWin <http://gnuwin32.sourceforge.net/>`_. GnuWin ports a lot of the powerful, tried and true open source tools to Windows. You will be able to use things like `ls`, `tar`, `wget`, and `grep` from the usual command prompt. A full list of what's available is `here <http://gnuwin32.sourceforge.net/packages.html>`_.
