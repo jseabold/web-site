@@ -73,7 +73,14 @@ TWITTER_SHOW_FOLLOWER_COUNT = 'true'
 #                    ('Courses', 'pages/courses.html'),
 #                    ('Talks', 'pages/talks.html'),
 #                    )
-MENUITEMS = (('Blog', '/blog'),)
+MENUITEMS = (('Blog', '/blog'),
+             ('About', '/pages/about'),
+             ('Courses', '/pages/courses'),
+             ('Home', '/'),
+             ('Projects', '/pages/projects'),
+             ('Talks', '/pages/talks'),
+             )
+DISPLAY_PAGES_ON_MENU = False
 
 # for pelican-fresh
 THEME = "themes/pelican-fresh"
