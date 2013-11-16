@@ -42,11 +42,10 @@ EXTRA_HEADER = open('_nb_header_mod.html').read().decode('utf-8')
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
-PLUGIN_PATH = '/home/skipper/src/pelican-plugins-jake/'
+PLUGIN_PATH = '/home/skipper/src/pelican-plugins-skipper/'
 PLUGINS = ['summary', 'liquid_tags.img', 'liquid_tags.video',
            'liquid_tags.include_code', 'liquid_tags.notebook',
-           'liquid_tags.literal', 'liquid_tags.macros']
-#NOTE: macros is a local liquid tag that I wrote. Not generally interesting.
+           'liquid_tags.literal']
 
 #Github include settings
 GITHUB_USER = 'jseabold'
