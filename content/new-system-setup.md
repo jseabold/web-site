@@ -121,7 +121,7 @@ This is a big install!
     gpg --gen-key
     gpg --armor --output .gnupg/skipperkey.asc --export
 
-## Config Files and Scripts
+## [Config Files](https://github.com/jseabold/dotfiles) and [Scripts](https://github.com/jseabold/scripts)
 
     cd ~
     cd src
@@ -139,8 +139,9 @@ Add `7 10 cleanup.weekly /home/skipper/src/scripts/clean_scratch.sh` to `/etc/an
 Bookmark directories for the shell.
 
     cd ~/src/
+    git clone https://github.com/huyng/bashmarks
+    cd bashmarks
     make install
-    git clone http://www.huyng.com/projects/bashmarks/
 
 Make sure `bashmarks.sh` is sourced in your `.bashrc` file.
 
@@ -353,6 +354,8 @@ For UMFPACK support
 
     sudo apt-get install swig
 
+Build/Install SciPy
+
     cd ~/src/scipy-skipper
     cp ~/src/numpy-skipper/site.cfg 
     python setup.py build
@@ -426,7 +429,7 @@ Build/Install pandas
     python setup.py build
     sudo python setup.py install
 
-### [starcluster](http://star.mit.edu/cluster/): cluster-computing toolkit for AMazon EC2
+### [starcluster](http://star.mit.edu/cluster/): cluster-computing toolkit for Amazon EC2
 
     cd ~/src/
     git clone git://github.com/jtriley/StarCluster.git
@@ -568,17 +571,24 @@ Build/Install Gretl
 
 ### [igraph](http://igraph.sourceforge.net/)
 
+Build the source
+
     cd ~/src/
-    wget --content-disposition http://sourceforge.net/projects/igraph/files/C%20library/0.6.5/igraph-0.6.5.tar.gz/download
-    tar -xvf igraph-*
+    git clone git://github.com/igraph/igraph
     cd igraph
+    sudo apt-get install libtool
+    ./bootstrap.sh
     ./configure
     make
     sudo make install
     make clean && make distclean
-    
+
+Install the Python package
+
+    cd interfaces/python
+    python setup.py build
+    sudo python setup.py install
     cd ~
-    pip install --user python-igraph
 
 ### [networkx](http://networkx.github.io/)
 
