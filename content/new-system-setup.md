@@ -7,9 +7,9 @@ Summary: This post describes the steps I need to take to set up my working envir
 
 The below may change, but I will not update the blog post. See the [source](https://github.com/jseabold/scripts/blob/master/setup.md) on github for the most up to date version.<br /><br />
 
-I recently lost my laptop and had to start again from scratch. I have spent the last two weeks setting up my new laptop, and this is the result. May I never have to do this much drudgery again.
+I recently lost my laptop and had to start again from scratch. I have spent the last two weeks setting up my new laptop, and this is the result. May I never have to do this much drudgery again.<br /><br />
 
-These are the steps I need to take and packages that I need to install to do my daily work right now. This includes development work in various languages, research projects, and day-to-day computing. This is as much for me as for anyone else. If you don't know what a command or package does, don't run it or install it. This list is not exhaustive, so see the link above to github for any additions or corrections.
+These are the steps I need to take and packages that I need to install to do my daily work right now. This includes development work in various languages, research projects, and day-to-day computing. This is as much for me as for anyone else. If you don't know what a command or package does, don't run it or install it. This list is not exhaustive, so see the link above to github for any additions or corrections.<br /><br />
 
 This setup is for a freshly installed [Kubuntu 13.10](http://www.kubuntu.org/getkubuntu) on a [Lenovo Yoga 13 laptop](http://www.amazon.com/gp/product/B00ATANVLG/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=B00ATANVLG&linkCode=as2&tag=scistapro-20).
 
