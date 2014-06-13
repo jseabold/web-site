@@ -42,7 +42,7 @@ EXTRA_HEADER = open('_nb_header_mod.html').read().decode('utf-8')
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
-PLUGIN_PATH = '/home/skipper/src/pelican-plugins-skipper/'
+PLUGIN_PATH = '/home/skipper/src/pelican-plugins/'
 PLUGINS = ['summary', 'liquid_tags.img', 'liquid_tags.video',
            'liquid_tags.include_code', 'liquid_tags.notebook',
            'liquid_tags.literal']
