@@ -42,10 +42,11 @@ EXTRA_HEADER = open('_nb_header_mod.html').read().decode('utf-8')
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
-PLUGIN_PATH = '/home/skipper/src/pelican-plugins/'
+PLUGIN_PATHS = ['/home/skipper/src/pelican-plugins-skipper/']
+# need my macro branch since i can't get themes/templates working again
 PLUGINS = ['summary', 'liquid_tags.img', 'liquid_tags.video',
            'liquid_tags.include_code', 'liquid_tags.notebook',
-           'liquid_tags.literal']
+           'liquid_tags.macro', 'liquid_tags.literal']
 
 #Github include settings
 GITHUB_USER = 'jseabold'
@@ -97,6 +98,7 @@ GOOGLE_ANALYTICS = 'UA-28581141-1'
 #                )
 STATIC_PATHS = ["pages/csc432/",
                 "pages/presentations/",
+                "wc2014_analysis.html",
                 ]
 #
 EXTRA_PATH_METADATA = {}

@@ -1,5 +1,4 @@
 Title: Projects
-Template: code
 
 My public projects and those to which I contribute can be found on my [github page](https://www.github.com/jseabold).
 
