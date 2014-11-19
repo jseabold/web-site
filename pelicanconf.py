@@ -94,8 +94,6 @@ GOOGLE_ANALYTICS = 'UA-28581141-1'
 #                 }
 
 # Full HTML or otherwise generated content
-#FILES_TO_COPY = (("content/pages/csc432", "csc432"),
-#                )
 STATIC_PATHS = ["pages/csc432/",
                 "pages/presentations/",
                 "wc2014_analysis.html",
