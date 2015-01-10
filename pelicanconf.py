@@ -96,6 +96,7 @@ GOOGLE_ANALYTICS = 'UA-28581141-1'
 # Full HTML or otherwise generated content
 STATIC_PATHS = ["pages/csc432/",
                 "pages/presentations/",
+                "pages/viz/",
                 "wc2014_analysis.html",
                 ]
 #
@@ -111,6 +112,7 @@ def copy_folder(source, path_dict):
 
 copy_folder("content/pages/csc432", EXTRA_PATH_METADATA)
 copy_folder("content/pages/presentations", EXTRA_PATH_METADATA)
+copy_folder("content/pages/viz", EXTRA_PATH_METADATA)
 
 #EXTRA_PATH_METADATA = {"pages/csc432/*" : {'path' : "csc433/*"},
 #                }
