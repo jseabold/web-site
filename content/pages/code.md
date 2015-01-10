@@ -16,6 +16,7 @@ My public scripts can all be found on my [gist page](https://gist.github.com/jse
 Python
 ------
 
+- {% code_snippet 2b549d8a74711e0d5932, tufte.py, Recration of Tufte graphic using matplotlib. [<a href="https://jseabold.net/viz/tufte.svg">Image</a>] %}
 - {% code_snippet 1473363, translate.py, Get translations using the Google Translate API. %}
 - {% code_snippet 1399100, webuse.py, An implementation of Stata's webuse in Python. This is now included in statsmodels %}
 - {% code_snippet 1291003, send_text.py, A context manager that will text you when it is done running some code. %}
